@@ -20,27 +20,23 @@ export const getWooCommerceProducts = async () => {
 
     return response.data; // Returns the products
   } catch (error) {
-    handleAxiosError(error);
-    throw error;
-  }
-};
-
-// Helper function to handle Axios errors
-const handleAxiosError = (error: any) => {
-  if (axios.isAxiosError(error)) {
-    const axiosError = error as AxiosError;
-    if (axiosError.response) {
-      console.error(
-        "API responded with error:",
-        axiosError.response.status,
-        axiosError.response.data,
-      );
-    } else if (axiosError.request) {
-      console.error("No response received:", axiosError.request);
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        console.error(
+          "API responded with error:",
+          axiosError.response.status,
+          axiosError.response.data,
+        );
+      } else if (axiosError.request) {
+        console.error("No response received:", axiosError.request);
+      } else {
+        console.error("Error setting up request:", axiosError.message);
+      }
     } else {
-      console.error("Error setting up request:", axiosError.message);
+      console.error("Error fetching WooCommerce products:", error);
     }
-  } else {
-    console.error("Error fetching WooCommerce products:", error);
+
+    throw error;
   }
 };
