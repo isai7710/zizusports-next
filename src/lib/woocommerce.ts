@@ -1,5 +1,5 @@
 // lib/woocommerce.ts
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const getWooCommerceProducts = async () => {
   const consumerKey = process.env.WC_CONSUMER_KEY;
@@ -18,9 +18,29 @@ export const getWooCommerceProducts = async () => {
       },
     });
 
-    return response.data;
+    return response.data; // Returns the products
   } catch (error) {
-    console.error("Error fetching WooCommerce products:", error);
+    handleAxiosError(error);
     throw error;
+  }
+};
+
+// Helper function to handle Axios errors
+const handleAxiosError = (error: any) => {
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      console.error(
+        "API responded with error:",
+        axiosError.response.status,
+        axiosError.response.data,
+      );
+    } else if (axiosError.request) {
+      console.error("No response received:", axiosError.request);
+    } else {
+      console.error("Error setting up request:", axiosError.message);
+    }
+  } else {
+    console.error("Error fetching WooCommerce products:", error);
   }
 };

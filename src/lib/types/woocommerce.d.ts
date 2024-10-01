@@ -11,8 +11,7 @@ export interface WooCommerceProduct {
   id: number;
   name: string;
   price: string;
-  currency: string;
-  description: string;
+  short_description: string;
   images: ProductImage[];
   stock_status: string;
   key: string; // Allow additional properties for flexibility
