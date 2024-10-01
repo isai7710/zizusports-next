@@ -12,6 +12,13 @@ export default function Home() {
           height={38}
           priority
         />
+        <Image
+          className="rounded-md border-2 border-gray-700 dark:invert"
+          src="https://res.cloudinary.com/de463zyga/image/upload/v1727804455/cld-sample-3.jpg"
+          alt="sample cloudinary image"
+          width={500}
+          height={500}
+        />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
