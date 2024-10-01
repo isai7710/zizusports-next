@@ -8,7 +8,7 @@ export default async function ProductGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8">
         {products.length > 0 ? (
           products.map((product: WooCommerceProduct) => (
             <div
@@ -16,22 +16,24 @@ export default async function ProductGrid() {
               className="flex justify-between border p-4 rounded shadow"
             >
               <div>
-                <h2 className="text-md font-bold max-w-[200px] text-wrap">
+                <h2 className="text-sm sm:text-md font-bold max-w-[200px] text-wrap">
                   {product.name}
                 </h2>
-                <p className="font-light text-sm">Price: ${product.price}</p>
+                <p className="font-light text-xs sm:text-sm">
+                  <span className="inline">Price: </span>${product.price}
+                </p>
               </div>
               <div>
                 {product.images && product.images.length > 0 ? (
                   <Image
                     key={product.images[0].id}
-                    src={`https://res.cloudinary.com/de463zyga/image/upload/c_auto/${product.images[0].name}.png`}
+                    src={`https://res.cloudinary.com/de463zyga/image/upload/${product.images[0].name}.png`}
                     alt={product.images[0].alt}
                     width={100}
                     height={100}
                   />
                 ) : (
-                  <p>No images available</p> // Fallback message if no images
+                  <p>No images available</p>
                 )}
               </div>
             </div>
