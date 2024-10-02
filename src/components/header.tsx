@@ -14,15 +14,15 @@ const links = [
   },
   {
     name: "Shop",
-    href: "/",
+    href: "/shop",
   },
   {
     name: "Contact Us",
-    href: "/",
+    href: "/contact",
   },
   {
     name: "About",
-    href: "/",
+    href: "/about",
   },
 ];
 
