@@ -1,4 +1,3 @@
-// lib/woocommerce.ts
 import axios, { AxiosError } from "axios";
 
 export const getWooCommerceProducts = async () => {
