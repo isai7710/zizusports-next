@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Search, ShoppingCart } from "react-feather";
 import { useState } from "react";
+import { inter } from "@/lib/fonts";
 import logo from "../../public/sizulogo.png";
 import clsx from "clsx";
 import DropdownMenu from "@/components/dropdown-menu";
@@ -34,13 +35,15 @@ export default function NavBar() {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 top-0 z-50 w-full bg-zinc-100 bg-opacity-80 backdrop-blur-sm">
-      <nav className="flex items-center justify-between h-16 px-4 w-full">
+    <header className="fixed left-0 top-0 z-50 w-full bg-zinc-100 bg-opacity-70 backdrop-blur-sm">
+      <nav
+        className={`${inter.className} flex items-center justify-between h-16 px-4 w-full `}
+      >
         <div className="flex jusify-start items-center space-x-10">
           <Link
             href="/"
             className={clsx(
-              "group flex items-center gap-1 text-center font-semibold text-md bg-transparent md:text-4xl",
+              "group flex items-center gap-1 text-center text-md bg-transparent md:text-4xl",
               pathname === "/" && "text-zinc-800",
             )}
           >
@@ -68,7 +71,7 @@ export default function NavBar() {
         <div className="flex items-center gap-1">
           <Search
             onClick={() => setSearchIsOpen((prev) => !prev)}
-            className="w-5 h-5 text-zinc-800 transition-colors duration-200 hover:text-zinc-400"
+            className="w-8 text-zinc-800 transition-colors duration-200 hover:text-zinc-400"
           />
           {searchIsOpen && (
             <input
@@ -78,20 +81,20 @@ export default function NavBar() {
               autoFocus={searchIsOpen}
             />
           )}
-          <ShoppingCart className="w-5 h-5 text-zinc-800" />
-          <div className="relative md:hidden ml-4">
+          <ShoppingCart className="w-8 text-zinc-800" />
+          <div className="relative md:hidden">
             <button
               onClick={() => setShowDropDown(!showDropDown)}
-              className="border border-zinc-800 p-1 rounded-md"
+              className="p-1 rounded-md"
               aria-label={!showDropDown ? "Open menu" : "Close menu"}
             >
               {!showDropDown ? (
                 <div key="menu">
-                  <Menu />
+                  <Menu className="w-8" />
                 </div>
               ) : (
                 <div key="close">
-                  <X />
+                  <X className="w-8" />
                 </div>
               )}
             </button>
