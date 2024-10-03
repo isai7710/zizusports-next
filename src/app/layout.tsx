@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+//import localFont from "next/font/local";
 import "./globals.css";
+import { lusitana } from "@/lib/fonts";
 import Footer from "@/components/footer";
 import NavBar from "@/components/header";
 
+/* 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -14,7 +16,7 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
+*/
 export const metadata: Metadata = {
   title: "Home | Zizu Sports",
   description: "Created with Next.js",
@@ -27,9 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${lusitana.className} antialiased relative`}>
         <NavBar />
         {children}
         <Footer />
