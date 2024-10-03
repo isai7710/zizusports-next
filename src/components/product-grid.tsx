@@ -1,4 +1,3 @@
-// app/gallery/page.tsx
 import { getWooCommerceProducts } from "@/lib/woocommerce";
 import Image from "next/image";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
