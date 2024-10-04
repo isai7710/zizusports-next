@@ -35,38 +35,30 @@ export default function NavBar() {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 top-0 z-50 w-full bg-zinc-100 bg-opacity-70 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full bg-palette-1 bg-opacity-70 backdrop-blur-sm">
       <nav
         className={`${inter.className} flex items-center justify-between h-16 px-4 w-full `}
       >
-        <div className="flex jusify-start items-center space-x-10">
-          <Link
-            href="/"
-            className={clsx(
-              "group flex items-center gap-1 text-center text-md bg-transparent md:text-4xl",
-              pathname === "/" && "text-zinc-800",
-            )}
-          >
-            <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
-          </Link>
-          <ul className="hidden md:flex justify-center space-x-2">
-            {links.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className={clsx(
-                    "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
-                    pathname === link.href
-                      ? "text-sky-800"
-                      : "text-zinc-500 hover:underline hover:underline-offset-8",
-                  )}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Link href="/" className="flex jusify-start items-center space-x-10">
+          <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
+        </Link>
+        <ul className="hidden md:flex flex-1 justify-center space-x-2">
+          {links.map((link) => (
+            <li key={link.name}>
+              <Link
+                href={link.href}
+                className={clsx(
+                  "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
+                  pathname === link.href
+                    ? "text-primary underline underline-offset-8"
+                    : "text-zinc-400 hover:underline hover:underline-offset-8",
+                )}
+              >
+                {link.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
         <div className="flex items-center gap-1">
           <Search
