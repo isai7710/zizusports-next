@@ -14,6 +14,13 @@ const config: Config = {
           "url(https://res.cloudinary.com/de463zyga/image/upload/upslatrslindoor.jpg)",
       },
       colors: {
+        primary: "#001F3F", // dark forrest green
+        palette: {
+          1: "#FCFAEE", // lighter muted forrest green
+          2: "#E8DFCA", // light beige
+          3: "#F5E5E6", // off-white
+          4: "#F28D35", // ACCENT: Vibrant Orange
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -23,10 +30,6 @@ const config: Config = {
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
