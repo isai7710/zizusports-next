@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 //import localFont from "next/font/local";
 import "./globals.css";
-import { lusitana } from "@/lib/fonts";
+import { saira } from "@/lib/fonts";
 import Footer from "@/components/footer";
 import NavBar from "@/components/header";
 
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lusitana.className} antialiased relative`}>
+      <body className={`${saira.className} antialiased relative`}>
         <NavBar />
         {children}
         <Footer />
