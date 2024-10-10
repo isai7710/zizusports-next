@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${saira.className} antialiased relative`}>
+      <body className={`${saira.className} antialiased relative bg-white`}>
         <NavBar />
         {children}
         <Footer />
