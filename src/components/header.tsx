@@ -5,7 +5,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Search, ShoppingCart } from "react-feather";
 import { useState } from "react";
-import { inter } from "@/lib/fonts";
 import logo from "../../public/sizulogo.png";
 import clsx from "clsx";
 import DropdownMenu from "@/components/dropdown-menu";
@@ -35,10 +34,8 @@ export default function NavBar() {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-palette-1 bg-opacity-70 backdrop-blur-sm">
-      <nav
-        className={`${inter.className} flex items-center justify-between h-16 px-4 w-full `}
-      >
+    <header className="sticky top-0 z-50 w-full bg-palette-1 bg-opacity-90 backdrop-blur-sm">
+      <nav className="flex items-center justify-between h-16 px-4 w-full">
         <Link href="/" className="flex jusify-start items-center space-x-10">
           <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
         </Link>
@@ -63,7 +60,7 @@ export default function NavBar() {
         <div className="flex items-center gap-1">
           <Search
             onClick={() => setSearchIsOpen((prev) => !prev)}
-            className="w-8 text-zinc-800 transition-colors duration-200 hover:text-zinc-400"
+            className="w-8 text-primary transition-colors duration-200 hover:text-zinc-400"
           />
           {searchIsOpen && (
             <input
@@ -73,7 +70,7 @@ export default function NavBar() {
               autoFocus={searchIsOpen}
             />
           )}
-          <ShoppingCart className="w-8 text-zinc-800" />
+          <ShoppingCart className="w-8 text-primary" />
           <div className="relative md:hidden">
             <button
               onClick={() => setShowDropDown(!showDropDown)}
