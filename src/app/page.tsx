@@ -12,7 +12,7 @@ export default async function Home() {
   ];
 
   return (
-    <main className="bg-palette-1 flex items-center p-2">
+    <main className="flex items-center p-4">
       <div className="w-1/2 pb-4 px-8 h-52 flex flex-col justify-center items-center gap-2 text-primary">
         <h2 className="text-5xl font-bold text-center  w-full md:w-2/3">
           Powered By Community.
