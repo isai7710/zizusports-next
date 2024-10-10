@@ -1,4 +1,5 @@
 import Carousel from "@/components/carousel";
+import Link from "next/link";
 
 export default async function Home() {
   const images = [
@@ -19,9 +20,12 @@ export default async function Home() {
         <p className="w-2/3 md:w-full italic text-center text-xl">
           Sportswear with a heartbeat. Your passion, our gear.
         </p>
-        <button className="font-bold my-1 px-4 py-1 rounded-md bg-zinc-400 bg-opacity-25 backdrop-blur-sm transition duration-200 hover:scale-105 hover:-rotate-3">
+        <Link
+          href="/shop"
+          className="font-bold my-1 px-4 py-1 rounded-md bg-zinc-400 bg-opacity-25 backdrop-blur-sm transition duration-200 hover:scale-105 hover:-rotate-3"
+        >
           Find your team kit here
-        </button>
+        </Link>
       </div>
       <Carousel
         className="rounded-xl min-h-[80vh] w-1/2 mx-auto flex flex-col justify-end"
