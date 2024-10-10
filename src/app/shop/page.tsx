@@ -15,13 +15,7 @@ export default function Shop() {
           Gear Up For Your Story.
         </h1>
       </section>
-      <main className="flex flex-col w-full max-w-5xl mx-auto my-8">
-        <p>
-          Testing WooCommerce API (read-only for now) by displaying products
-          below:
-        </p>
-        <ProductGrid />
-      </main>
+      <ProductGrid />
     </>
   );
 }
