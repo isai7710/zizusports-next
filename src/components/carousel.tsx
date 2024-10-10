@@ -30,13 +30,12 @@ export default function Carousel({
 
   return (
     <div
-      className={cn(className, "relative")}
+      className={cn(
+        className,
+        "relative bg-center bg-cover bg-no-repeat transition-all duration-500 ease-in-out",
+      )}
       style={{
         backgroundImage: `url(https://res.cloudinary.com/de463zyga/image/upload/${imgs[imgState]})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        transition: "background-image 0.5s ease-in-out",
       }}
     >
       <button
