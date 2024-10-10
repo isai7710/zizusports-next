@@ -3,34 +3,36 @@ import Link from "next/link";
 
 export default async function Home() {
   const images = [
-    "uniform22girls.jpg",
-    "uniform22boys1.jpg",
-    "uniform22boys2.jpg",
-    "teamintrainingjerseys.png",
-    "2010inblack.png",
-    "upslatrslindoor.jpg",
+    "uniform24group",
+    "uniform24kids1",
+    "uniform24kids2",
+    "uniform24girls1",
+    "uniform22girls",
+    "uniform22boys1",
+    "uniform22boys2",
   ];
 
   return (
-    <main className="flex items-center p-4">
-      <div className="w-1/2 pb-4 px-8 h-52 flex flex-col justify-center items-center gap-2 text-primary">
-        <h2 className="text-5xl font-bold text-center  w-full md:w-2/3">
-          Powered By Community.
-        </h2>
-        <p className="w-2/3 md:w-full italic text-center text-xl">
-          Sportswear with a heartbeat. Your passion, our gear.
-        </p>
-        <Link
-          href="/shop"
-          className="font-bold my-1 px-4 py-1 rounded-md bg-zinc-400 bg-opacity-25 backdrop-blur-sm transition duration-200 hover:scale-105 hover:-rotate-3"
-        >
-          Find your team kit here
-        </Link>
+    <main className="container mx-auto px-4 py-8">
+      <div className="flex flex-col md:flex-row items-center gap-8">
+        <div className="w-full md:w-1/2 flex flex-col justify-center items-center gap-4 text-primary">
+          <h2 className="text-3xl md:text-5xl font-bold text-center">
+            Powered By Community.
+          </h2>
+          <p className="italic text-center text-sm md:text-xl">
+            Sportswear with a heartbeat. Your passion, our gear.
+          </p>
+          <Link
+            href="/shop"
+            className="font-bold px-6 py-2 rounded-md bg-primary text-white transition duration-200 hover:bg-primary/90 hover:scale-105"
+          >
+            Find your team kit here
+          </Link>
+        </div>
+        <div className="order-first md:order-1 w-full md:w-1/2 h-[300px] md:h-[400px] relative rounded-xl overflow-hidden">
+          <Carousel imgs={images} />
+        </div>
       </div>
-      <Carousel
-        className="rounded-xl min-h-[80vh] w-1/2 mx-auto flex flex-col justify-end"
-        imgs={images}
-      />
     </main>
   );
 }
