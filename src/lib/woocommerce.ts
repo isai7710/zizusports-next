@@ -10,12 +10,15 @@ export const getWooCommerceProducts = async () => {
   }
 
   try {
-    const response = await axios.get(`${apiUrl}/products`, {
-      auth: {
-        username: consumerKey,
-        password: consumerSecret,
+    const response = await axios.get(
+      `${apiUrl}/products?orderby=menu_order&order=asc`,
+      {
+        auth: {
+          username: consumerKey,
+          password: consumerSecret,
+        },
       },
-    });
+    );
 
     return response.data; // Returns the products
   } catch (error) {
