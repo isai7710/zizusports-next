@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { ReactNode, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "react-feather";
 
@@ -29,27 +30,25 @@ export default function Carousel({
     setImgState((prev) => (prev - 1 + imgs.length) % imgs.length);
 
   return (
-    <div
-      className={cn(
-        className,
-        "relative bg-center bg-cover bg-no-repeat transition-all duration-500 ease-in-out",
-      )}
-      style={{
-        backgroundImage: `url(https://res.cloudinary.com/de463zyga/image/upload/${imgs[imgState]})`,
-      }}
-    >
+    <div className="relative w-full h-full">
+      <Image
+        src={`https://res.cloudinary.com/de463zyga/image/upload/${imgs[imgState]}.jpg`}
+        alt={`carousel image ${imgState}`}
+        fill
+        className={cn("object-cover", className)}
+      />
       <button
         onClick={cyclePrev}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-1 rounded-full"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ChevronLeft className="w-6 h-6" />
       </button>
       {children}
       <button
         onClick={cycleNext}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-1 rounded-full"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
       >
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className="w-6 h-6" />
       </button>
     </div>
   );
