@@ -14,9 +14,9 @@ const config: Config = {
           "url(https://res.cloudinary.com/de463zyga/image/upload/upslatrslindoor.jpg)",
       },
       colors: {
-        primary: "#001F3F", // dark forrest green
+        primary: "#001F3F", // navy blue
         palette: {
-          1: "#FCFAEE", // lighter muted forrest green
+          1: "#FCFAEE", // off white/beige
           2: "#E8DFCA", // light beige
           3: "#F5E5E6", // off-white
           4: "#F28D35", // ACCENT: Vibrant Orange
