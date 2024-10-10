@@ -11,7 +11,7 @@ export default async function ProductGrid({
   const products = await getWooCommerceProducts();
 
   return (
-    <section className="w-full max-w-4xl mx-auto my-8 grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8">
+    <section className="w-full max-w-4xl mx-auto md:my-8 grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8">
       {products.length > 0 ? (
         products.map((product: WooCommerceProduct) => (
           <div
