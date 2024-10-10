@@ -41,16 +41,16 @@ export default function Carousel({
     >
       <button
         onClick={cyclePrev}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-1 rounded-full"
       >
-        <ChevronLeft />
+        <ChevronLeft className="w-4 h-4" />
       </button>
       {children}
       <button
         onClick={cycleNext}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-1 rounded-full"
       >
-        <ChevronRight />
+        <ChevronRight className="w-4 h-4" />
       </button>
     </div>
   );
