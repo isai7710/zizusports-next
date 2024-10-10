@@ -7,6 +7,12 @@ export interface ProductImage {
   alt: string;
 }
 
+export interface ProductAttribute {
+  id: number;
+  name: string;
+  options: string[];
+}
+
 export interface WooCommerceProduct {
   id: number;
   name: string;
@@ -14,5 +20,5 @@ export interface WooCommerceProduct {
   short_description: string;
   images: ProductImage[];
   stock_status: string;
-  key: string; // Allow additional properties for flexibility
+  attributes: ProductAttribute[];
 }
