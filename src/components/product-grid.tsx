@@ -12,7 +12,7 @@ export default async function ProductGrid() {
           products.map((product: WooCommerceProduct) => (
             <div
               key={product.id}
-              className="flex justify-between border p-4 rounded shadow"
+              className="bg-white flex justify-between border p-4 rounded shadow"
             >
               <div>
                 <h2 className="text-sm sm:text-md font-bold max-w-[200px] text-wrap">
