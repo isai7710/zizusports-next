@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-export const getWooCommerceProducts = async () => {
+export async function getWooCommerceProducts() {
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
   const apiUrl = process.env.WC_API_URL;
@@ -41,4 +41,4 @@ export const getWooCommerceProducts = async () => {
 
     throw error;
   }
-};
+}
