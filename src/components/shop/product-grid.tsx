@@ -1,14 +1,15 @@
-import { getWooCommerceProducts } from "@/lib/woocommerce";
+import { getWooProducts } from "@/lib/woocommerce";
 import Image from "next/image";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default async function ProductGrid({
   className,
 }: {
   className?: string;
 }) {
-  const products: WooCommerceProduct[] = await getWooCommerceProducts();
+  const products: WooCommerceProduct[] = await getWooProducts();
 
   return (
     <section
@@ -19,7 +20,8 @@ export default async function ProductGrid({
     >
       {products.length > 0 ? (
         products.map((product) => (
-          <div
+          <Link
+            href={`/shop/product/${product.id}`}
             key={product.id}
             className="group bg-white flex flex-col hover:cursor-pointer"
           >
@@ -58,7 +60,7 @@ export default async function ProductGrid({
                     ))}
               </div>
             </div>
-          </div>
+          </Link>
         ))
       ) : (
         <p>No products available</p>
