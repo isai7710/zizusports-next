@@ -1,5 +1,7 @@
 import ProductGrid from "@/components/shop/product-grid";
+import ProductGridSkeleton from "@/components/shop/product-grid-skeleton";
 import Image from "next/image";
+import { Suspense } from "react";
 
 export default function Shop() {
   return (
@@ -15,7 +17,9 @@ export default function Shop() {
           Gear Up For Your Story.
         </h1>
       </section>
-      <ProductGrid />
+      <Suspense fallback={<ProductGridSkeleton />}>
+        <ProductGrid />
+      </Suspense>
     </>
   );
 }
