@@ -8,35 +8,41 @@ export default async function ProductGrid({
 }: {
   className?: string;
 }) {
-  const products = await getWooCommerceProducts();
+  const products: WooCommerceProduct[] = await getWooCommerceProducts();
 
   return (
-    <section className="w-full max-w-4xl mx-auto md:my-8 grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-8">
+    <section
+      className={cn(
+        "w-full max-w-4xl mx-auto md:my-8 grid grid-cols-2 md:grid-cols-3 gap-4",
+        className,
+      )}
+    >
       {products.length > 0 ? (
-        products.map((product: WooCommerceProduct) => (
+        products.map((product) => (
           <div
             key={product.id}
-            className={cn(
-              className,
-              "group bg-white flex flex-col hover:cursor-pointer",
-            )}
+            className="group bg-white flex flex-col hover:cursor-pointer"
           >
-            <div className="min-h-[280px] rounded-lg pb-2 flex items-end">
+            <div className="relative w-full aspect-[4/5] overflow-hidden">
               {product.images && product.images.length > 0 ? (
                 <Image
                   key={product.images[0].id}
                   src={`https://res.cloudinary.com/de463zyga/image/upload/${product.images[0].name}.png`}
                   alt={product.images[0].alt}
-                  width={200}
-                  height={200}
-                  className="mx-auto group-hover:scale-105 transition duration-200 ease-in-out"
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  className="object-cover group-hover:scale-105 transition duration-200 ease-in-out"
                 />
               ) : (
-                <p>No images available</p>
+                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                  <p className="text-gray-500">No image</p>
+                </div>
               )}
             </div>
-            <div className="px-8">
-              <h2 className="text-lg font-bold w-full">{product.name}</h2>
+            <div className="p-4">
+              <h2 className="text-lg font-bold w-full truncate">
+                {product.name}
+              </h2>
               <p className="font-light text-xs sm:text-sm">${product.price}</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {product.attributes &&
