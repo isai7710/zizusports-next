@@ -26,7 +26,7 @@ export default async function ProductPage({
   const sizes = sizeAttribute ? sizeAttribute.options : [];
 
   return (
-    <main className="mx-auto mt-8 max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-5xl lg:px-8">
+    <main className="mx-auto mt-6 md:mt-8 max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-5xl lg:px-8">
       <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
         <div className="lg:col-span-5 lg:col-start-7">
           <div className="flex justify-between">
@@ -73,8 +73,8 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="mt-8 lg:col-span-6 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-          <div className="relative w-full aspect-[4/5] overflow-hidden">
+        <div className="lg:col-span-6 lg:col-start-1 lg:row-span-3 lg:row-start-1">
+          <div className="relative w-full aspect-[3/4] md:aspect-[4/5] md:overflow-hidden">
             {product.images && product.images.length > 0 ? (
               <Image
                 key={product.images[0].id}
@@ -82,7 +82,7 @@ export default async function ProductPage({
                 alt={product.images[0].alt}
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                className="object-cover group-hover:scale-105 transition duration-200 ease-in-out"
+                className="object-cover"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -94,8 +94,10 @@ export default async function ProductPage({
 
         <div className="lg:col-span-5">
           <form>
-            {colors.length > 0 && <ColorPicker colors={colors} />}
-            {sizes.length > 0 && <SizePicker sizes={sizes} />}
+            <div className="md:mt-8 md:mb-1 flex flex-col gap-3">
+              {colors.length > 0 && <ColorPicker colors={colors} />}
+              {sizes.length > 0 && <SizePicker sizes={sizes} />}
+            </div>
 
             <button
               type="submit"
