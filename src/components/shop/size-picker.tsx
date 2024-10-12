@@ -19,8 +19,8 @@ export function SizePicker({ sizes }: { sizes: string[] }) {
       </div>
       <div
         className={cn(
-          "grid gap-3 justify-evenly",
-          sizes.length > 4 ? "sm:grid-cols-4" : `sm:grid-cols-${sizes.length}`,
+          "grid gap-3",
+          sizes.length > 4 ? "grid-cols-4" : `grid-cols-${sizes.length}`,
         )}
       >
         {sizes.map((size, index) => (
@@ -31,8 +31,7 @@ export function SizePicker({ sizes }: { sizes: string[] }) {
               size === selectedSize
                 ? "border-transparent bg-primary text-white hover:bg-opacity-80 transition duration-100 ease-in-out"
                 : "border-gray-200 bg-white text-gray-900 hover:bg-gray-100 transition duration-100 ease-in-out",
-              "flex items-center justify-center rounded-md border py-1 text-sm font-medium uppercase sm:flex-1 hover:cursor-pointer",
-              size.length > 3 ? "px-8" : "px-3",
+              "flex items-center justify-center rounded-md border py-1 text-sm font-medium uppercase hover:cursor-pointer px-3",
             )}
           >
             {size}
