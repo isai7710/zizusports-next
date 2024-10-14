@@ -96,7 +96,9 @@ export default async function ProductPage({
           <form>
             <div className="md:mt-8 md:mb-1 flex flex-col gap-3">
               {colors.length > 0 && <ColorPicker colors={colors} />}
-              {sizes.length > 0 && <SizePicker sizes={sizes} />}
+              {sizes.length > 0 && (
+                <SizePicker sizes={sizes} productName={product.name} />
+              )}
             </div>
 
             <button
