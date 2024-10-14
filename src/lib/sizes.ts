@@ -1,47 +1,17 @@
-export const jerseySizes = [
-  {
-    size: "YS",
-    chest: 42.5,
-    torso: 59.5,
+export const sizes = {
+  jerseys: {
+    size: ["YS", "YM", "YL", "YXL", "S", "M", "L", "XL", "2XL"],
+    chest: [71, 76, 81, 86, 94, 102, 102, 102, 102],
+    torso: [58, 62, 67, 71, 76, 81, 81, 81, 81],
   },
-  {
-    size: "YM",
-    chest: 76,
-    torso: 62,
+  jackets: {
+    size: ["S", "M", "L", "XL", "2XL"],
+    chest: [91, 97, 102, 107, 110],
   },
-  {
-    size: "YL",
-    chest: 81,
-    torso: 67,
+  pants: {
+    size: ["30", "32", "34", "36"],
+    waist: [76, 81, 86, 91],
+    length: [81, 83, 84, 86],
   },
-  {
-    size: "YXL",
-    chest: 86,
-    torso: 71,
-  },
-  {
-    size: "S",
-    chest: 94,
-    torso: 76,
-  },
-  {
-    size: "M",
-    chest: 102,
-    torso: 81,
-  },
-  {
-    size: "L",
-    chest: 102,
-    torso: 81,
-  },
-  {
-    size: "XL",
-    chest: 102,
-    torso: 81,
-  },
-  {
-    size: "2XL",
-    chest: 102,
-    torso: 81,
-  },
-];
+  // Add more categories as needed...
+};
