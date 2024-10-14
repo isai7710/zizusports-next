@@ -11,7 +11,7 @@ export async function getWooProducts() {
 
   try {
     const response = await axios.get(
-      `${apiUrl}/products?orderby=menu_order&order=asc&_fields=id,name,price,short_description,images,stock_status,attributes`,
+      `${apiUrl}/products?orderby=menu_order&order=asc&_fields=id,name,price,short_description,images,stock_status,attributes,categories`,
       {
         auth: {
           username: consumerKey,

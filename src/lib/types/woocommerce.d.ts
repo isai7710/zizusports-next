@@ -13,6 +13,12 @@ export interface ProductAttribute {
   options: string[];
 }
 
+export interface ProductCategory {
+  id: number;
+  name: string;
+  options: string[];
+}
+
 export interface WooCommerceProduct {
   id: number;
   name: string;
@@ -21,4 +27,5 @@ export interface WooCommerceProduct {
   images: ProductImage[];
   stock_status: string;
   attributes: ProductAttribute[];
+  categories: ProductCategory[];
 }
