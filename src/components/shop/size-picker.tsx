@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -14,81 +13,107 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { jerseySizes } from "@/lib/sizes";
+import { sizes } from "@/lib/sizes";
+
+type CategorySizes = {
+  size: string[];
+  chest?: number[];
+  torso?: number[];
+  waist?: number[];
+  length?: number[];
+};
+
+const defaultCategorySizes: CategorySizes = { size: [] };
 
 export function SizePicker({
-  sizes,
+  sizeLabels,
   productName,
+  productCategory,
 }: {
-  sizes: string[];
+  sizeLabels: string[];
   productName: string;
+  productCategory: string;
 }) {
-  const [selectedSize, setSelectedSize] = useState(sizes[2]);
+  const [selectedSize, setSelectedSize] = useState(sizeLabels[2]);
+  const categorySizes: CategorySizes =
+    sizes[productCategory as keyof typeof sizes] || defaultCategorySizes;
+
+  const sizeKeys = Object.keys(categorySizes);
 
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
         <h2 className="text-sm font-medium text-gray-900">Select a size</h2>
         <Dialog>
-          <DialogTrigger>
-            <p className="text-sm font-medium text-gray-400 hover:text-slate-500">
-              See sizing chart
+          {categorySizes.size.length > 0 ? (
+            <DialogTrigger>
+              <p className="text-sm font-medium text-gray-400 hover:text-slate-500">
+                See sizing chart
+              </p>
+            </DialogTrigger>
+          ) : (
+            <p className="text-sm font-medium text-gray-400 cursor-not-allowed">
+              Sizing chart not available
             </p>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[550px]">
-            <DialogHeader>
-              <DialogTitle>Sizing Chart</DialogTitle>
-              <DialogDescription>{productName}</DialogDescription>
-            </DialogHeader>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[80px]"></TableHead>
-                  {jerseySizes.map((size, index) => (
-                    <TableHead key={index} className="font-medium">
-                      {size.size}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableHead className="">Chest</TableHead>
-                  {jerseySizes.map((size, index) => (
-                    <TableCell key={index} className="font-medium">
-                      {size.chest}
+          )}
+          {categorySizes.size.length > 0 && (
+            <DialogContent className="sm:max-w-[550px]">
+              <DialogHeader>
+                <DialogTitle>Sizing Chart</DialogTitle>
+                <DialogDescription>{productName}</DialogDescription>
+              </DialogHeader>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableCell className="w-[90px] font-medium">
+                      Size (cm)
                     </TableCell>
+                    {categorySizes.size.map((size, index) => (
+                      <TableHead key={index} className="font-medium">
+                        {size}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {sizeKeys.slice(1).map((key) => (
+                    <TableRow key={key}>
+                      <TableHead className="">
+                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                      </TableHead>
+                      {key in categorySizes &&
+                        categorySizes[key as keyof CategorySizes]?.map(
+                          (value, index) => (
+                            <TableCell key={index} className="font-medium">
+                              {value}
+                            </TableCell>
+                          ),
+                        )}
+                    </TableRow>
                   ))}
-                </TableRow>
-                <TableRow>
-                  <TableHead className="">Torso</TableHead>
-                  {jerseySizes.map((size, index) => (
-                    <TableCell key={index} className="font-medium">
-                      {size.torso}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            </Table>
-          </DialogContent>
+                </TableBody>
+              </Table>
+            </DialogContent>
+          )}
         </Dialog>
       </div>
       <div
         className={cn(
           "grid gap-3",
-          sizes.length > 4 ? "grid-cols-4" : `grid-cols-${sizes.length}`,
+          sizeLabels.length > 4
+            ? "grid-cols-4"
+            : `grid-cols-${sizeLabels.length}`,
         )}
       >
-        {sizes.map((size, index) => (
+        {sizeLabels.map((size, index) => (
           <span
             key={index}
-            onClick={() => setSelectedSize(sizes[index])}
+            onClick={() => setSelectedSize(sizeLabels[index])}
             className={cn(
               size === selectedSize
                 ? "border-transparent bg-primary text-white hover:bg-opacity-80 transition duration-100 ease-in-out"
