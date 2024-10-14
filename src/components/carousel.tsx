@@ -14,29 +14,41 @@ export default function Carousel({
   imgs: string[];
   children?: ReactNode;
 }) {
-  const [imgState, setImgState] = useState(1);
+  const [imgState, setImgState] = useState(0);
 
-  // Automatic image cycling every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setImgState((prevState) => (prevState + 1) % imgs.length);
     }, 5000);
 
-    return () => clearInterval(interval); // Clear interval on component unmount
-  }, [imgs.length]);
+    return () => clearInterval(interval);
+  }, [imgState, imgs.length]);
 
-  const cycleNext = () => setImgState((prev) => (prev + 1) % imgs.length);
-  const cyclePrev = () =>
+  const cycleNext = () => {
+    setImgState((prev) => (prev + 1) % imgs.length);
+  };
+  const cyclePrev = () => {
     setImgState((prev) => (prev - 1 + imgs.length) % imgs.length);
+  };
 
   return (
     <div className="relative w-full h-full">
-      <Image
-        src={`https://res.cloudinary.com/de463zyga/image/upload/${imgs[imgState]}.jpg`}
-        alt={`carousel image ${imgState}`}
-        fill
-        className={cn("object-cover", className)}
-      />
+      {imgs.map((img, index) => (
+        <div
+          key={index}
+          className={cn(
+            "absolute inset-0 transition-opacity duration-500 ease-in-out",
+            index === imgState ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <Image
+            src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.jpg`}
+            alt={`carousel image ${index}`}
+            fill
+            className={cn("object-cover", className)}
+          />
+        </div>
+      ))}
       <button
         onClick={cyclePrev}
         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
