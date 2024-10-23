@@ -23,7 +23,7 @@ export default async function ProductGrid({
           <Link
             href={`/shop/product/${product.id}`}
             key={product.id}
-            className="group bg-white flex flex-col hover:cursor-pointer"
+            className="bg-slate-100 flex flex-col hover:cursor-pointer rounded-xl"
           >
             <div className="relative w-full aspect-[4/5] overflow-hidden">
               {product.images && product.images.length > 0 ? (
@@ -33,7 +33,7 @@ export default async function ProductGrid({
                   alt={product.images[0].alt}
                   fill
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                  className="object-cover group-hover:scale-105 transition duration-200 ease-in-out"
+                  className="object-cover rounded-xl"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-200">
