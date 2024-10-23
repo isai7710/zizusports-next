@@ -13,7 +13,7 @@ export default function Shop() {
           fill
           className="object-cover object-[0px_57%]"
         />
-        <h1 className="absolute text-nowrap z-10 text-palette-1 text-2xl md:text-5xl font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-44">
+        <h1 className="absolute text-nowrap z-10 text-palette-3 text-2xl md:text-5xl font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-44">
           Gear Up For Your Story.
         </h1>
       </section>
