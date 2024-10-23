@@ -34,7 +34,7 @@ export default function NavBar() {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white bg-opacity-80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full bg-slate-100 bg-opacity-80 backdrop-blur-sm shadow-sm">
       <nav className="flex items-center justify-between h-16 px-4 w-full">
         <Link href="/" className="flex jusify-start items-center space-x-10">
           <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
