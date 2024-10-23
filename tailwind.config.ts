@@ -14,11 +14,11 @@ const config: Config = {
           "url(https://res.cloudinary.com/de463zyga/image/upload/upslatrslindoor.jpg)",
       },
       colors: {
-        primary: "#001F3F", // navy blue
+        primary: "#102C57", // navy blue
         palette: {
-          1: "#FCFAEE", // off white/beige
-          2: "#E8DFCA", // light beige
-          3: "#F5E5E6", // off-white
+          1: "#DAC0A3", // beige
+          2: "#EADBC8", // light beige
+          3: "#FEFAF6", // off-white
           4: "#F28D35", // ACCENT: Vibrant Orange
         },
         background: "hsl(var(--background))",
@@ -67,4 +67,5 @@ const config: Config = {
   },
   plugins: [require("tailwindcss-animate")],
 };
+
 export default config;
