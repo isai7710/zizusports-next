@@ -82,7 +82,7 @@ export default async function ProductPage({
                 alt={product.images[0].alt}
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                className="object-cover"
+                className="object-cover rounded-xl"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-200">
