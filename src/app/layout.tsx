@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${saira.className} antialiased bg-gradient-to-tl from-slate-100  to-slate-200`}
+        className={`${saira.className} antialiased bg-gradient-to-tl from-slate-50  to-slate-100`}
       >
         <NavBar />
         {children}
