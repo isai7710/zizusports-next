@@ -8,6 +8,7 @@ import { useState } from "react";
 import logo from "../../public/sizulogo.png";
 import clsx from "clsx";
 import DropdownMenu from "@/components/dropdown-menu";
+import { CartModal } from "@/components/cart/modal";
 
 const links = [
   {
@@ -32,67 +33,77 @@ export default function NavBar() {
   const pathname = usePathname();
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchIsOpen, setSearchIsOpen] = useState(false);
+  const [cartIsOpen, setCartIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-slate-100 bg-opacity-80 backdrop-blur-sm shadow-sm">
-      <nav className="flex items-center justify-between h-16 px-4 w-full">
-        <Link href="/" className="flex jusify-start items-center space-x-10">
-          <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
-        </Link>
-        <ul className="hidden md:flex flex-1 justify-center space-x-2">
-          {links.map((link) => (
-            <li key={link.name}>
-              <Link
-                href={link.href}
-                className={clsx(
-                  "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
-                  pathname === link.href
-                    ? "text-primary underline underline-offset-8"
-                    : "text-zinc-400 hover:underline hover:underline-offset-8",
-                )}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+    <>
+      <header className="sticky top-0 z-50 w-full bg-slate-100 bg-opacity-80 backdrop-blur-sm shadow-sm">
+        <nav className="flex items-center justify-between h-16 px-4 w-full">
+          <Link href="/" className="flex jusify-start items-center space-x-10">
+            <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
+          </Link>
+          <ul className="hidden md:flex flex-1 justify-center space-x-2">
+            {links.map((link) => (
+              <li key={link.name}>
+                <Link
+                  href={link.href}
+                  className={clsx(
+                    "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
+                    pathname === link.href
+                      ? "text-primary underline underline-offset-8"
+                      : "text-zinc-400 hover:underline hover:underline-offset-8",
+                  )}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        <div className="flex items-center gap-1">
-          <Search
-            onClick={() => setSearchIsOpen((prev) => !prev)}
-            className="w-8 text-primary transition-colors duration-200 hover:text-zinc-400"
-          />
-          {searchIsOpen && (
-            <input
-              type="text"
-              className="rounded-lg w-52 placeholder-zinc-300 px-2 py-1 text-sm"
-              placeholder="Search for a product..."
-              autoFocus={searchIsOpen}
+          <div className="flex items-center gap-1">
+            <Search
+              onClick={() => setSearchIsOpen((prev) => !prev)}
+              className="w-8 text-primary transition-colors duration-200 hover:text-zinc-400"
             />
-          )}
-          <ShoppingCart className="w-8 text-primary" />
-          <div className="relative md:hidden">
-            <button
-              onClick={() => setShowDropDown(!showDropDown)}
-              className="p-1 rounded-md"
-              aria-label={!showDropDown ? "Open menu" : "Close menu"}
-            >
-              {!showDropDown ? (
-                <div key="menu">
-                  <Menu className="w-8" />
-                </div>
-              ) : (
-                <div key="close">
-                  <X className="w-8" />
-                </div>
-              )}
-            </button>
-            {showDropDown && (
-              <DropdownMenu links={links} setIsOpen={setShowDropDown} />
+            {searchIsOpen && (
+              <input
+                type="text"
+                className="rounded-lg w-52 placeholder-zinc-300 px-2 py-1 text-sm"
+                placeholder="Search for a product..."
+                autoFocus={searchIsOpen}
+              />
             )}
+            <button
+              onClick={() => setCartIsOpen(true)}
+              className="py-1 pr-1 rounded-md transition-colors duration-200 hover:bg-gray-200"
+              aria-label="Open shopping cart"
+            >
+              <ShoppingCart className="w-8 text-primary" />
+            </button>
+            <div className="relative md:hidden">
+              <button
+                onClick={() => setShowDropDown(!showDropDown)}
+                className="p-1 rounded-md"
+                aria-label={!showDropDown ? "Open menu" : "Close menu"}
+              >
+                {!showDropDown ? (
+                  <div key="menu">
+                    <Menu className="w-8" />
+                  </div>
+                ) : (
+                  <div key="close">
+                    <X className="w-8" />
+                  </div>
+                )}
+              </button>
+              {showDropDown && (
+                <DropdownMenu links={links} setIsOpen={setShowDropDown} />
+              )}
+            </div>
           </div>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
+      <CartModal isOpen={cartIsOpen} onClose={() => setCartIsOpen(false)} />
+    </>
   );
 }
