@@ -3,8 +3,7 @@ import { WooCommerceProduct } from "@/lib/types/woocommerce";
 import { cn } from "@/lib/utils";
 import { Star } from "react-feather";
 import Image from "next/image";
-import { ColorPicker } from "@/components/shop/color-picker";
-import { SizePicker } from "@/components/shop/size-picker";
+import { ProductInteractiveSection } from "@/components/shop/product-interaction";
 
 export default async function ProductPage({
   params,
@@ -92,27 +91,11 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="lg:col-span-5">
-          <form>
-            <div className="md:mt-8 md:mb-1 flex flex-col gap-3">
-              {colors.length > 0 && <ColorPicker colors={colors} />}
-              {sizes.length > 0 && (
-                <SizePicker
-                  sizeLabels={sizes}
-                  productName={product.name}
-                  productCategory={product.categories[0].name.toLowerCase()}
-                />
-              )}
-            </div>
-
-            <button
-              type="submit"
-              className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-8 py-3 text-base font-medium text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
-            >
-              Add to cart
-            </button>
-          </form>
-        </div>
+        <ProductInteractiveSection
+          product={product}
+          colors={colors}
+          sizes={sizes}
+        />
       </div>
     </main>
   );
