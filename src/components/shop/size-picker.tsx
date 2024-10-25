@@ -1,7 +1,4 @@
-"use client";
-
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -30,16 +27,21 @@ type CategorySizes = {
 
 const defaultCategorySizes: CategorySizes = { size: [] };
 
+interface SizePickerProps {
+  sizeLabels: string[];
+  productName: string;
+  productCategory: string;
+  selectedSize?: string;
+  onSizeChange: (size: string) => void;
+}
+
 export function SizePicker({
   sizeLabels,
   productName,
   productCategory,
-}: {
-  sizeLabels: string[];
-  productName: string;
-  productCategory: string;
-}) {
-  const [selectedSize, setSelectedSize] = useState(sizeLabels[2]);
+  selectedSize,
+  onSizeChange,
+}: SizePickerProps) {
   const categorySizes: CategorySizes =
     sizes[productCategory as keyof typeof sizes] || defaultCategorySizes;
 
@@ -113,7 +115,7 @@ export function SizePicker({
         {sizeLabels.map((size, index) => (
           <span
             key={index}
-            onClick={() => setSelectedSize(sizeLabels[index])}
+            onClick={() => onSizeChange(size)}
             className={cn(
               size === selectedSize
                 ? "border-transparent bg-primary text-white hover:bg-opacity-80 transition duration-100 ease-in-out"
