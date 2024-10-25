@@ -4,6 +4,7 @@ import "./globals.css";
 import { saira } from "@/lib/fonts";
 import Footer from "@/components/footer";
 import NavBar from "@/components/header";
+import { CartProvider } from "@/components/contexts/cart-context";
 
 /* 
 const geistSans = localFont({
@@ -32,9 +33,11 @@ export default function RootLayout({
       <body
         className={`${saira.className} antialiased bg-gradient-to-tl from-slate-50  to-slate-100`}
       >
-        <NavBar />
-        {children}
-        <Footer />
+        <CartProvider>
+          <NavBar />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
