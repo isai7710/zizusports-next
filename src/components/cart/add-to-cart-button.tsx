@@ -1,7 +1,6 @@
-// app/shop/product/[id]/AddToCartButton.tsx
 "use client";
 
-import { useCart } from "@/components/contexts/cart-context";
+import { useCart } from "@/components/cart/cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 interface AddToCartButtonProps {

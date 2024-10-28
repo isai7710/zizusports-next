@@ -1,5 +1,5 @@
 import { X, Plus, Minus } from "react-feather";
-import { useCart } from "@/components/contexts/cart-context";
+import { useCart } from "@/components/cart/cart-context";
 import Image from "next/image";
 
 interface CartModalProps {
