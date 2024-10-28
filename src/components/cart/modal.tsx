@@ -16,13 +16,13 @@ export function CartModal() {
 
   return (
     <div
-      className="fixed inset-0 bg-slate-900 bg-opacity-50 z-50"
+      className="fixed inset-0 bg-slate-900 bg-opacity-50 z-50 transition-transform duration-300 ease-in-out transform translate-x-0"
       onClick={(e) => e.target === e.currentTarget && toggleModal()}
       aria-modal="true"
       role="dialog"
     >
       <div
-        className="absolute right-0 top-0 h-full w-full max-w-md bg-gradient-to-tl from-slate-50 to-slate-100 shadow-xl transition-transform duration-300 ease-in-out transform translate-x-0"
+        className="absolute right-0 top-0 h-full w-full max-w-md bg-gradient-to-tl from-slate-50 to-slate-100 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 h-full flex flex-col">
