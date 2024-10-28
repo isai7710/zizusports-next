@@ -51,16 +51,16 @@ export default function Carousel({
       ))}
       <button
         onClick={cyclePrev}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-8 h-8 text-white/50" />
       </button>
       {children}
       <button
         onClick={cycleNext}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-8 h-8 text-white/50" />
       </button>
     </div>
   );
