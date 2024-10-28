@@ -27,6 +27,8 @@ interface CartContextType {
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  isOpen: boolean;
+  toggleModal: () => void;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(

@@ -6,6 +6,7 @@ import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -88,6 +89,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
+  const toggleModal = () => setIsOpen((prev) => !prev);
+
   return (
     <CartContext.Provider
       value={{
@@ -98,6 +101,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         clearCart,
         getTotalItems,
         getTotalPrice,
+        isOpen,
+        toggleModal,
       }}
     >
       {children}
