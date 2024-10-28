@@ -16,7 +16,7 @@ export function CartModal() {
 
   return (
     <div
-      className="fixed inset-0 bg-slate-900 bg-opacity-50 z-50 transition-transform duration-300 ease-in-out transform translate-x-0"
+      className="fixed inset-0 bg-slate-900 bg-opacity-50 z-50"
       onClick={(e) => e.target === e.currentTarget && toggleModal()}
       aria-modal="true"
       role="dialog"
