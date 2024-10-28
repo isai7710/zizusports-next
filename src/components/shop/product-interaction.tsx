@@ -25,33 +25,31 @@ export function ProductInteractiveSection({
   );
 
   return (
-    <div className="lg:col-span-5">
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="md:mt-8 md:mb-1 flex flex-col gap-3">
-          {colors.length > 0 && (
-            <ColorPicker
-              colors={colors}
-              selectedColor={selectedColor}
-              onColorChange={setSelectedColor}
-            />
-          )}
-          {sizes.length > 0 && (
-            <SizePicker
-              sizeLabels={sizes}
-              selectedSize={selectedSize}
-              onSizeChange={setSelectedSize}
-              productName={product.name}
-              productCategory={product.categories[0].name.toLowerCase()}
-            />
-          )}
-        </div>
+    <form onSubmit={(e) => e.preventDefault()}>
+      <div className="md:mt-8 md:mb-1 flex flex-col gap-3">
+        {colors.length > 0 && (
+          <ColorPicker
+            colors={colors}
+            selectedColor={selectedColor}
+            onColorChange={setSelectedColor}
+          />
+        )}
+        {sizes.length > 0 && (
+          <SizePicker
+            sizeLabels={sizes}
+            selectedSize={selectedSize}
+            onSizeChange={setSelectedSize}
+            productName={product.name}
+            productCategory={product.categories[0].name.toLowerCase()}
+          />
+        )}
+      </div>
 
-        <AddToCartButton
-          product={product}
-          selectedColor={selectedColor}
-          selectedSize={selectedSize}
-        />
-      </form>
-    </div>
+      <AddToCartButton
+        product={product}
+        selectedColor={selectedColor}
+        selectedSize={selectedSize}
+      />
+    </form>
   );
 }
