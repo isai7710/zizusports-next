@@ -4,7 +4,7 @@ import "./globals.css";
 import { saira } from "@/lib/fonts";
 import Footer from "@/components/footer";
 import NavBar from "@/components/header";
-import { CartProvider } from "@/components/contexts/cart-context";
+import { CartProvider } from "@/components/cart/cart-provider";
 
 /* 
 const geistSans = localFont({
