@@ -50,9 +50,13 @@ export default function NavBar() {
                   href={link.href}
                   className={cn(
                     "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
-                    pathname === link.href
-                      ? "text-primary underline underline-offset-8"
-                      : "text-zinc-400 hover:underline hover:underline-offset-8",
+                    link.href === "/"
+                      ? pathname === "/"
+                        ? "text-primary underline underline-offset-8"
+                        : "text-zinc-400 hover:underline hover:underline-offset-8"
+                      : pathname.startsWith(link.href)
+                        ? "text-primary underline underline-offset-8"
+                        : "text-zinc-400 hover:underline hover:underline-offset-8",
                   )}
                 >
                   {link.name}
@@ -81,9 +85,8 @@ export default function NavBar() {
             >
               <ShoppingCart className="w-8 text-primary" />
               {items.length > 0 && (
-                <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-700 opacity-75"></span>
-                  <span className="relative rounded-full h-4 w-4 bg-sky-800 text-white text-xs flex items-center justify-center">
+                <span className="absolute top-0 right-0">
+                  <span className="rounded-full h-4 w-4 bg-sky-800 text-white text-xs flex items-center justify-center">
                     {items.length}
                   </span>
                 </span>
