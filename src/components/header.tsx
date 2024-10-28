@@ -81,9 +81,9 @@ export default function NavBar() {
             >
               <ShoppingCart className="w-8 text-primary" />
               {items.length > 0 && (
-                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span className="relative rounded-full h-4 w-4 bg-sky-500 text-white text-xs flex items-center justify-center">
+                <span className="absolute top-0 right-0 flex h-4 w-4 items-center justify-center">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-700 opacity-75"></span>
+                  <span className="relative rounded-full h-4 w-4 bg-sky-800 text-white text-xs flex items-center justify-center">
                     {items.length}
                   </span>
                 </span>
