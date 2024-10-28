@@ -1,10 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { CartContextType, CartItem } from "@/lib/types/cart";
+import React, { useState, useEffect } from "react";
+import { CartItem, CartContext } from "./cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -105,12 +103,4 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       {children}
     </CartContext.Provider>
   );
-}
-
-export function useCart() {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
-  return context;
 }

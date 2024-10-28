@@ -1,4 +1,5 @@
-import { WooCommerceProduct } from "./woocommerce";
+import { createContext, useContext } from "react";
+import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 export interface CartItem {
   id: number;
@@ -14,7 +15,7 @@ export interface CartItem {
   };
 }
 
-export interface CartContextType {
+interface CartContextType {
   items: CartItem[];
   addItem: (
     product: WooCommerceProduct,
@@ -26,4 +27,16 @@ export interface CartContextType {
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+}
+
+export const CartContext = createContext<CartContextType | undefined>(
+  undefined,
+);
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (context === undefined) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
 }
