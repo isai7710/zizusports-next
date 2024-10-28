@@ -14,13 +14,14 @@ export function AddToCartButton({
   selectedColor,
   selectedSize,
 }: AddToCartButtonProps) {
-  const { addItem } = useCart();
+  const { addItem, toggleModal } = useCart();
 
   const handleAddToCart = () => {
     addItem(product, 1, {
       color: selectedColor,
       size: selectedSize,
     });
+    toggleModal();
   };
 
   return (

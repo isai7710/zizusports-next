@@ -2,26 +2,22 @@ import { X, Plus, Minus } from "react-feather";
 import { useCart } from "@/components/cart/cart-context";
 import Image from "next/image";
 
-interface CartModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function CartModal({ isOpen, onClose }: CartModalProps) {
-  const { items, removeItem, updateQuantity, getTotalPrice } = useCart();
+export function CartModal() {
+  const {
+    items,
+    removeItem,
+    updateQuantity,
+    getTotalPrice,
+    isOpen,
+    toggleModal,
+  } = useCart();
 
   if (!isOpen) return null;
-
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
 
   return (
     <div
       className="fixed inset-0 bg-slate-900 bg-opacity-50 z-50"
-      onClick={handleOverlayClick}
+      onClick={(e) => e.target === e.currentTarget && toggleModal()}
       aria-modal="true"
       role="dialog"
     >
@@ -33,7 +29,7 @@ export function CartModal({ isOpen, onClose }: CartModalProps) {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">Your Cart</h2>
             <button
-              onClick={onClose}
+              onClick={toggleModal}
               className="p-2 rounded-full transition-colors duration-200 hover:bg-gray-200"
               aria-label="Close cart"
             >

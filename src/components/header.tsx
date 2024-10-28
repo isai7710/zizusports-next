@@ -3,10 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Search, ShoppingCart } from "react-feather";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useCart } from "./cart/cart-context";
+import { Menu, X, Search, ShoppingCart } from "react-feather";
 import logo from "../../public/sizulogo.png";
-import clsx from "clsx";
 import DropdownMenu from "@/components/dropdown-menu";
 import { CartModal } from "@/components/cart/modal";
 
@@ -33,7 +34,7 @@ export default function NavBar() {
   const pathname = usePathname();
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchIsOpen, setSearchIsOpen] = useState(false);
-  const [cartIsOpen, setCartIsOpen] = useState(false);
+  const { items, toggleModal } = useCart();
 
   return (
     <>
@@ -47,7 +48,7 @@ export default function NavBar() {
               <li key={link.name}>
                 <Link
                   href={link.href}
-                  className={clsx(
+                  className={cn(
                     "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
                     pathname === link.href
                       ? "text-primary underline underline-offset-8"
@@ -74,11 +75,19 @@ export default function NavBar() {
               />
             )}
             <button
-              onClick={() => setCartIsOpen(true)}
-              className="py-1 pr-1 rounded-md transition-colors duration-200 hover:bg-gray-200"
+              onClick={toggleModal}
+              className="relative py-1 pr-1 rounded-md transition-colors duration-200 hover:bg-gray-200"
               aria-label="Open shopping cart"
             >
               <ShoppingCart className="w-8 text-primary" />
+              {items.length > 0 && (
+                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                  <span className="relative rounded-full h-4 w-4 bg-sky-500 text-white text-xs flex items-center justify-center">
+                    {items.length}
+                  </span>
+                </span>
+              )}
             </button>
             <div className="relative md:hidden">
               <button
@@ -103,7 +112,7 @@ export default function NavBar() {
           </div>
         </nav>
       </header>
-      <CartModal isOpen={cartIsOpen} onClose={() => setCartIsOpen(false)} />
+      <CartModal />
     </>
   );
 }
