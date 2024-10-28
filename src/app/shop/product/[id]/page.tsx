@@ -4,6 +4,13 @@ import { cn } from "@/lib/utils";
 import { Star } from "react-feather";
 import Image from "next/image";
 import { ProductInteractiveSection } from "@/components/shop/product-interaction";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default async function ProductPage({
   params,
@@ -25,9 +32,20 @@ export default async function ProductPage({
   const sizes = sizeAttribute ? sizeAttribute.options : [];
 
   return (
-    <main className="mx-auto mt-6 md:mt-8 max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-5xl lg:px-8">
-      <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
-        <div className="lg:col-span-5 lg:col-start-7">
+    <main className="mx-auto mt-6 md:mt-8 max-w-xl px-4 pb-16 sm:px-6 sm:pb-24 md:max-w-5xl md:px-8">
+      <div className="mb-2">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>{product.name}</BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+      <div className="md:grid md:auto-rows-min md:grid-cols-10 md:gap-x-6 lg:gap-x-8 lg:grid-cols-12">
+        <div className="md:col-span-5 md:col-start-6 lg:col-span-6 lg:col-start-7">
           <div className="flex justify-between">
             <h1 className="text-xl font-medium text-gray-900">
               {product.name}
@@ -36,7 +54,7 @@ export default async function ProductPage({
               ${product.price}
             </p>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 mb-2 md:mb-0">
             <h2 className="sr-only">Reviews</h2>
             <div className="flex items-center">
               <p className="text-sm text-gray-700">
@@ -72,7 +90,7 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="lg:col-span-6 lg:col-start-1 lg:row-span-3 lg:row-start-1">
+        <div className="md:col-span-5 md:col-start-1 md:row-span-3 md:row-start-1 lg:col-span-6">
           <div className="relative w-full aspect-[3/4] md:aspect-[4/5] md:overflow-hidden">
             {product.images && product.images.length > 0 ? (
               <Image
@@ -91,11 +109,13 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <ProductInteractiveSection
-          product={product}
-          colors={colors}
-          sizes={sizes}
-        />
+        <div className="md:col-span-5 lg:col-span-6">
+          <ProductInteractiveSection
+            product={product}
+            colors={colors}
+            sizes={sizes}
+          />
+        </div>
       </div>
     </main>
   );
