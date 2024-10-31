@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${saira.className} antialiased bg-gradient-to-tl from-slate-50  to-slate-100`}
+        className={`${saira.className} antialiased custom-scrollbar bg-gradient-to-tl from-slate-50  to-slate-100`}
       >
         <CartProvider>
           <NavBar />
