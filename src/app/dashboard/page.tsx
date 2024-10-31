@@ -5,13 +5,18 @@ import {
   Bar,
   LineChart,
   Line,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
   XAxis,
   YAxis,
   CartesianGrid,
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Bell, ShoppingCart, Users, Activity, Shirt } from "lucide-react";
+import { ShoppingCart, Users, Activity, Shirt } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -42,6 +47,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 // Mock data
 const orderStatus = [
@@ -51,10 +61,62 @@ const orderStatus = [
 ];
 
 const playerRoster = [
-  { id: 1, name: "John Doe", position: "Forward", number: 10 },
-  { id: 2, name: "Jane Smith", position: "Midfielder", number: 8 },
-  { id: 3, name: "Mike Johnson", position: "Defender", number: 4 },
-  { id: 4, name: "Sarah Williams", position: "Goalkeeper", number: 1 },
+  {
+    id: 1,
+    name: "John Doe",
+    position: "Forward",
+    number: 10,
+    stats: [
+      { subject: "Shooting", A: 120, fullMark: 150 },
+      { subject: "Passing", A: 98, fullMark: 150 },
+      { subject: "Dribbling", A: 86, fullMark: 150 },
+      { subject: "Speed", A: 99, fullMark: 150 },
+      { subject: "Stamina", A: 85, fullMark: 150 },
+      { subject: "Strength", A: 65, fullMark: 150 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    position: "Midfielder",
+    number: 8,
+    stats: [
+      { subject: "Shooting", A: 88, fullMark: 150 },
+      { subject: "Passing", A: 130, fullMark: 150 },
+      { subject: "Dribbling", A: 110, fullMark: 150 },
+      { subject: "Speed", A: 95, fullMark: 150 },
+      { subject: "Stamina", A: 105, fullMark: 150 },
+      { subject: "Strength", A: 90, fullMark: 150 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Mike Johnson",
+    position: "Defender",
+    number: 4,
+    stats: [
+      { subject: "Shooting", A: 65, fullMark: 150 },
+      { subject: "Passing", A: 110, fullMark: 150 },
+      { subject: "Dribbling", A: 80, fullMark: 150 },
+      { subject: "Speed", A: 90, fullMark: 150 },
+      { subject: "Stamina", A: 100, fullMark: 150 },
+      { subject: "Strength", A: 120, fullMark: 150 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Sarah Williams",
+    position: "Goalkeeper",
+    number: 1,
+    stats: [
+      { subject: "Reflexes", A: 130, fullMark: 150 },
+      { subject: "Positioning", A: 115, fullMark: 150 },
+      { subject: "Handling", A: 125, fullMark: 150 },
+      { subject: "Kicking", A: 100, fullMark: 150 },
+      { subject: "Diving", A: 120, fullMark: 150 },
+      { subject: "Height", A: 95, fullMark: 150 },
+    ],
+  },
 ];
 
 const performanceData = [
@@ -195,7 +257,9 @@ export default function Dashboard() {
             <CardTitle className="text-xl font-semibold flex items-center">
               <Users className="mr-2" /> Player Roster
             </CardTitle>
-            <CardDescription>Current team lineup</CardDescription>
+            <CardDescription>
+              Current team lineup (hover for stats)
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
@@ -208,11 +272,48 @@ export default function Dashboard() {
               </TableHeader>
               <TableBody>
                 {playerRoster.map((player) => (
-                  <TableRow key={player.id}>
-                    <TableCell>{player.name}</TableCell>
-                    <TableCell>{player.position}</TableCell>
-                    <TableCell>{player.number}</TableCell>
-                  </TableRow>
+                  <HoverCard key={player.id}>
+                    <HoverCardTrigger asChild>
+                      <TableRow className="cursor-pointer">
+                        <TableCell>{player.name}</TableCell>
+                        <TableCell>{player.position}</TableCell>
+                        <TableCell>{player.number}</TableCell>
+                      </TableRow>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-80">
+                      <div className="flex justify-between space-x-4">
+                        <div>
+                          <h3 className="text-sm font-semibold">
+                            {player.name}
+                          </h3>
+                          <p className="text-sm">
+                            {player.position} - #{player.number}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-4 h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <RadarChart
+                            cx="50%"
+                            cy="50%"
+                            outerRadius="80%"
+                            data={player.stats}
+                          >
+                            <PolarGrid />
+                            <PolarAngleAxis dataKey="subject" />
+                            <PolarRadiusAxis angle={30} domain={[0, 150]} />
+                            <Radar
+                              name={player.name}
+                              dataKey="A"
+                              stroke="#8884d8"
+                              fill="#8884d8"
+                              fillOpacity={0.6}
+                            />
+                          </RadarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
                 ))}
               </TableBody>
             </Table>
