@@ -2,7 +2,6 @@ import { getWooProductById } from "@/lib/woocommerce";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 import { cn } from "@/lib/utils";
 import { Star } from "react-feather";
-import Image from "next/image";
 import { ProductInteractiveSection } from "@/components/shop/product-interaction";
 import {
   Breadcrumb,
@@ -18,6 +17,8 @@ export default async function ProductPage({
   params: { id: string };
 }) {
   const product: WooCommerceProduct = await getWooProductById(params.id);
+
+  const images = product.images?.length ? product.images : [];
 
   // Find the color and sizes attribute in the product attributes if it exists
   const colorAttribute = product.attributes.find(
@@ -45,40 +46,6 @@ export default async function ProductPage({
         </Breadcrumb>
       </div>
       <div className="md:grid md:auto-rows-min md:grid-cols-10 md:gap-x-6 lg:gap-x-8">
-        <div className="md:col-span-5 md:col-start-1 md:row-span-3 md:row-start-1">
-          <div className="relative w-full aspect-[3/4] md:aspect-[4/5] md:overflow-hidden">
-            {product.images && product.images.length > 0 ? (
-              <Image
-                key={product.images[0].id}
-                src={`https://res.cloudinary.com/de463zyga/image/upload/${product.images[0].name}.png`}
-                alt={product.images[0].alt}
-                fill
-                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                className="object-cover rounded-xl"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                <p className="text-gray-500">No image</p>
-              </div>
-            )}
-          </div>
-          <div className="w-full mt-4 grid grid-cols-4 gap-x-2">
-            {product.images.map((img, index) => (
-              <div
-                key={index}
-                className="relative w-24 aspect-[3/4] overflow-hidden"
-              >
-                <Image
-                  src={`https://res.cloudinary.com/de463zyga/image/upload/${img.name}.png`}
-                  alt={img.alt}
-                  fill
-                  className="object-fit rounded-md"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
         <div className="md:col-span-5 md:col-start-6">
           <div className="mt-2 md:mt-0 flex md:flex-col justify-between">
             <h1 className="text-2xl md:text-4xl font-medium text-gray-900">
@@ -124,18 +91,19 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="md:col-span-5">
-          <ProductInteractiveSection
-            product={product}
-            colors={colors}
-            sizes={sizes}
-          />
-        </div>
+        <ProductInteractiveSection
+          product={product}
+          colors={colors}
+          sizes={sizes}
+          images={images}
+        />
 
-        <div className="mt-4 md:mt-8 md:col-span-5 flex flex-col gap-2">
-          <h2 className="text-xl font-semibold">Description</h2>
-          <p>{product.short_description.replace(/<\/?p>/g, "")}</p>
-        </div>
+        {product.short_description && (
+          <div className="mt-4 md:mt-8 md:col-span-5 flex flex-col gap-2">
+            <h2 className="text-xl font-semibold">Description</h2>
+            <p>{product.short_description.replace(/<\/?p>/g, "")}</p>
+          </div>
+        )}
       </div>
     </main>
   );
