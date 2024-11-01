@@ -272,7 +272,7 @@ export default function Dashboard() {
               </TableHeader>
               <TableBody>
                 {playerRoster.map((player) => (
-                  <HoverCard key={player.id}>
+                  <HoverCard key={player.id} openDelay={100}>
                     <HoverCardTrigger asChild>
                       <TableRow className="cursor-pointer">
                         <TableCell>{player.name}</TableCell>
@@ -280,7 +280,7 @@ export default function Dashboard() {
                         <TableCell>{player.number}</TableCell>
                       </TableRow>
                     </HoverCardTrigger>
-                    <HoverCardContent className="w-80">
+                    <HoverCardContent className="w-80" side="right">
                       <div className="flex justify-between space-x-4">
                         <div>
                           <h3 className="text-sm font-semibold">
@@ -377,7 +377,7 @@ export default function Dashboard() {
                 placeholder="Enter custom text for jerseys"
               />
             </div>
-            <Button className="mt-4">Save Customization</Button>
+            <Button className="mt-4 text-white">Save Customization</Button>
           </CardContent>
         </Card>
       </div>
