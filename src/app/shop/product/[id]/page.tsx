@@ -32,7 +32,7 @@ export default async function ProductPage({
   const sizes = sizeAttribute ? sizeAttribute.options : [];
 
   return (
-    <main className="mx-auto mt-6 md:mt-8 max-w-xl px-4 pb-16 sm:px-6 sm:pb-24 md:max-w-5xl md:px-8">
+    <main className="mx-auto mt-6 md:mt-8 max-w-xl px-4 pb-16 sm:px-6 sm:pb-24 md:max-w-4xl md:px-8 2xl:max-w-5xl">
       <div className="mb-2">
         <Breadcrumb>
           <BreadcrumbList>
@@ -44,8 +44,8 @@ export default async function ProductPage({
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="md:grid md:auto-rows-min md:grid-cols-10 md:gap-x-6 lg:gap-x-8 lg:grid-cols-12">
-        <div className="md:col-span-5 md:col-start-1 md:row-span-4 md:row-start-1 lg:col-span-6">
+      <div className="md:grid md:auto-rows-min md:grid-cols-10 md:gap-x-6 lg:gap-x-8">
+        <div className="md:col-span-5 md:col-start-1 md:row-span-3 md:row-start-1">
           <div className="relative w-full aspect-[3/4] md:aspect-[4/5] md:overflow-hidden">
             {product.images && product.images.length > 0 ? (
               <Image
@@ -62,7 +62,7 @@ export default async function ProductPage({
               </div>
             )}
           </div>
-          <div className="mt-4 grid grid-cols-4 gap-x-2">
+          <div className="w-full mt-4 grid grid-cols-4 gap-x-2">
             {product.images.map((img, index) => (
               <div
                 key={index}
@@ -79,7 +79,7 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="md:col-span-5 md:col-start-6 lg:col-span-6 lg:col-start-7">
+        <div className="md:col-span-5 md:col-start-6">
           <div className="mt-2 md:mt-0 flex md:flex-col justify-between">
             <h1 className="text-2xl md:text-4xl font-medium text-gray-900">
               {product.name}
@@ -124,14 +124,15 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <div className="md:col-span-5 lg:col-span-6">
+        <div className="md:col-span-5">
           <ProductInteractiveSection
             product={product}
             colors={colors}
             sizes={sizes}
           />
         </div>
-        <div className="mt-4 md:mt-8 md:col-span-5 lg:col-span-6 flex flex-col gap-2">
+
+        <div className="mt-4 md:mt-8 md:col-span-5 flex flex-col gap-2">
           <h2 className="text-xl font-semibold">Description</h2>
           <p>{product.short_description.replace(/<\/?p>/g, "")}</p>
         </div>
