@@ -13,7 +13,7 @@ export function ColorPicker({
 }: ColorPickerProps) {
   return (
     <div>
-      <h2 className="text-sm font-medium text-gray-900 mb-1">Colors</h2>
+      <h2 className="text-sm font-medium text-gray-900 mb-1">Color</h2>
       <div className="flex items-center space-x-3">
         {colors.map((color, index) => (
           <span
