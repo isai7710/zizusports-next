@@ -1,7 +1,7 @@
 "use client";
 
 import { WooCommerceProduct, ProductImage } from "@/lib/types/woocommerce";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ColorPicker } from "@/components/shop/color-picker";
 import { SizePicker } from "@/components/shop/size-picker";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
@@ -23,35 +23,14 @@ export function ProductInteractiveSection({
   images,
 }: ProductInteractiveSectionProps) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    undefined,
+    colors.length > 0 ? colors[0] : undefined,
   );
   const [selectedSize, setSelectedSize] = useState<string | undefined>(
     sizes.length > 0 ? sizes[0] : undefined,
   );
   const [currentImage, setCurrentImage] = useState<ProductImage | undefined>(
-    undefined,
+    images.length > 0 ? images[0] : undefined,
   );
-
-  useEffect(() => {
-    if (!currentImage && images.length > 0) {
-      setCurrentImage(images[0]);
-      return;
-    }
-
-    const findImageByColor = (color: string | undefined) => {
-      if (!color || !images.length) return undefined;
-
-      // Assuming alt text format like "color:black | Description"
-      return images.find((img) =>
-        img.alt.toLowerCase().includes(color.toLowerCase()),
-      );
-    };
-    // Find and set image matching selected color
-    const matchingImage = findImageByColor(selectedColor);
-    if (matchingImage) {
-      setCurrentImage(matchingImage);
-    }
-  }, [selectedColor, images, currentImage]);
 
   return (
     <section className="md:grid md:grid-cols-8 md:auto-rows-min md:gap-x-6">
@@ -72,13 +51,19 @@ export function ProductInteractiveSection({
           {images.map((img, index) => (
             <div
               key={index}
-              className="relative w-full aspect-square overflow-hidden"
+              onClick={() => setCurrentImage(img)}
+              className={cn(
+                currentImage?.id === img.id
+                  ? "border border-primary/40 shadow-xl"
+                  : "border-none",
+                "relative w-full aspect-square overflow-hidden rounded-md",
+              )}
             >
               <Image
                 src={`https://res.cloudinary.com/de463zyga/image/upload/${img.name}.png`}
                 alt={img.alt}
                 fill
-                className="object-cover rounded-md"
+                className="object-cover"
               />
             </div>
           ))}
