@@ -10,23 +10,29 @@ import { Menu, X, Search, ShoppingCart } from "react-feather";
 import logo from "../../public/sizulogo.png";
 import DropdownMenu from "@/components/dropdown-menu";
 import { CartModal } from "@/components/cart/modal";
+import { ChevronDown } from "react-feather";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from "./ui/hover-card";
 
 const links = [
   {
     name: "HOME",
     href: "/",
+    hasDropDown: false,
   },
   {
     name: "SHOP",
     href: "/shop",
+    hasDropDown: true,
   },
   {
     name: "CONTACT US",
     href: "/contact",
+    hasDropDown: false,
   },
   {
     name: "ABOUT",
     href: "/about",
+    hasDropDown: false,
   },
 ];
 
@@ -43,26 +49,72 @@ export default function NavBar() {
           <Link href="/" className="flex jusify-start items-center space-x-10">
             <Image src={logo} alt="Sizu Logo" className="w-20 bg-transparent" />
           </Link>
-          <ul className="hidden md:flex flex-1 justify-center space-x-2">
-            {links.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
-                    link.href === "/"
-                      ? pathname === "/"
-                        ? "text-primary underline underline-offset-8"
-                        : "text-zinc-400 hover:underline hover:underline-offset-8"
-                      : pathname.startsWith(link.href)
-                        ? "text-primary underline underline-offset-8"
-                        : "text-zinc-400 hover:underline hover:underline-offset-8",
-                  )}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            ))}
+          <ul className="hidden md:flex flex-1 justify-center items-center space-x-2">
+            {links.map((link) =>
+              link.hasDropDown ? (
+                <li key={link.name}>
+                  <HoverCard openDelay={10}>
+                    <HoverCardTrigger className="group ">
+                      <p
+                        className={cn(
+                          "text-sm font-semibold px-2 py-2 transition-all duration-200 flex items-center justify-between rounded-md hover:bg-gray-800/10 group-data-[state=open]:bg-gray-800/10",
+                          link.href === "/"
+                            ? pathname === "/"
+                              ? "text-primary underline underline-offset-8"
+                              : "text-zinc-400 "
+                            : pathname.startsWith(link.href)
+                              ? "text-primary underline underline-offset-8"
+                              : "text-zinc-400",
+                        )}
+                      >
+                        {link.name}
+                        <ChevronDown
+                          id={`chevron-${link.name.toLowerCase()}`}
+                          className="w-4 text-zinc-400 transition duration-200 ease-in-out group-data-[state=open]:rotate-180 ml-1"
+                        />
+                      </p>
+                    </HoverCardTrigger>
+                    <HoverCardContent
+                      className="w-48 p-0 bg-white rounded-lg shadow-lg border border-gray-200"
+                      align="start"
+                    >
+                      <div className="flex flex-col justify-between py-2">
+                        <Link
+                          href="/"
+                          className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
+                        >
+                          Uniform Kits
+                        </Link>
+                        <Link
+                          href={link.href}
+                          className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
+                        >
+                          Club Gear
+                        </Link>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                </li>
+              ) : (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "text-sm font-semibold px-2 py-2 rounded-md transition-all duration-200",
+                      link.href === "/"
+                        ? pathname === "/"
+                          ? "text-primary underline underline-offset-8"
+                          : "text-zinc-400 hover:bg-gray-800/10 "
+                        : pathname.startsWith(link.href)
+                          ? "text-primary underline underline-offset-8"
+                          : "text-zinc-400 hover:bg-gray-800/10",
+                    )}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
 
           <div className="flex items-center gap-1">
