@@ -21,7 +21,7 @@ export default async function ProductGrid({
       {products.length > 0 ? (
         products.map((product) => (
           <Link
-            href={`/shop/product/${product.id}`}
+            href={`/shop/products/${product.id}`}
             key={product.id}
             className="bg-slate-100 flex flex-col hover:cursor-pointer rounded-xl"
           >

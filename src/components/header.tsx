@@ -86,7 +86,7 @@ export default function NavBar() {
                           Uniform Kits
                         </Link>
                         <Link
-                          href="/shop/gear"
+                          href="/shop/products"
                           className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
                         >
                           Club Gear
