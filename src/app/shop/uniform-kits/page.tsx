@@ -13,12 +13,13 @@ export default function UniformKits() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (teamCode.trim()) {
-      router.push(`/uniform-kits/${teamCode}`);
+      //router.push(`/uniform-kits/${teamCode}`);
+      router.push("/");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-start p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-8">
         <div className="text-center">
           <ShieldCheck className="mx-auto h-12 w-12 text-primary" />
@@ -26,7 +27,7 @@ export default function UniformKits() {
             Uniform Kits
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            Enter your team code to access your custom uniform kit
+            Enter your team code to customize your uniform kit order
           </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -46,13 +47,13 @@ export default function UniformKits() {
                 value={teamCode}
                 onChange={(e) => setTeamCode(e.target.value)}
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
-                placeholder="Enter your team code"
+                placeholder="Enter your team code..."
               />
             </div>
           </div>
           <Button
             type="submit"
-            className="w-full flex justify-center items-center"
+            className="w-full flex justify-between items-center text-palette-3"
           >
             Access Uniform Kit
             <ArrowRight className="ml-2 h-4 w-4" />
