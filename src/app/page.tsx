@@ -13,6 +13,24 @@ export default function Component() {
     "uniform22boys2",
   ];
 
+  const cardContent = [
+    {
+      title: "Quality Products",
+      desc: "Our sportswear is crafted with premium materials for durability and comfort",
+      icon: ShoppingBag,
+    },
+    {
+      title: "Community-Driven",
+      desc: "We support local teams and foster a sense of community through our products",
+      icon: Users,
+    },
+    {
+      title: "Fast Delivery",
+      desc: "Get your team kits quickly with our efficient shipping process",
+      icon: Truck,
+    },
+  ];
+
   return (
     <main className="min-h-screen w-full">
       <div className="bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -46,21 +64,21 @@ export default function Component() {
             Why Choose Us?
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<ShoppingBag className="w-12 h-12 text-primary" />}
-              title="Quality Products"
-              description="Our sportswear is crafted with premium materials for durability and comfort."
-            />
-            <FeatureCard
-              icon={<Users className="w-12 h-12 text-primary" />}
-              title="Community-Driven"
-              description="We support local teams and foster a sense of belonging through our products."
-            />
-            <FeatureCard
-              icon={<Truck className="w-12 h-12 text-primary" />}
-              title="Fast Delivery"
-              description="Get your team kits quickly with our efficient shipping process."
-            />
+            {cardContent.map((card) => {
+              const CardIcon = card.icon;
+              return (
+                <div
+                  key={card.title}
+                  className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg shadow-md transition duration-300 hover:shadow-xl"
+                >
+                  <CardIcon className="w-10 h-10" />
+                  <h4 className="text-xl font-semibold mt-4 mb-2">
+                    {card.title}
+                  </h4>
+                  <p className="text-gray-600">{card.desc}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -88,15 +106,5 @@ export default function Component() {
         </div>
       </section>
     </main>
-  );
-}
-
-function FeatureCard({ icon, title, description }) {
-  return (
-    <div className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg shadow-md transition duration-300 hover:shadow-xl">
-      {icon}
-      <h4 className="text-xl font-semibold mt-4 mb-2">{title}</h4>
-      <p className="text-gray-600">{description}</p>
-    </div>
   );
 }
