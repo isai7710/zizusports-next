@@ -80,7 +80,7 @@ export default function NavBar() {
                     >
                       <div className="flex flex-col justify-between py-2">
                         <Link
-                          href="/shop/kits"
+                          href="/shop/uniform-kits"
                           className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
                         >
                           Uniform Kits
