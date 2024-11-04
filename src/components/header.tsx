@@ -21,7 +21,7 @@ const links = [
   },
   {
     name: "SHOP",
-    href: "/shop",
+    href: "",
     hasDropDown: true,
   },
   {
@@ -62,7 +62,7 @@ export default function NavBar() {
                             ? pathname === "/"
                               ? "text-primary underline underline-offset-8"
                               : "text-zinc-400 "
-                            : pathname.startsWith(link.href)
+                            : pathname.startsWith("/shop")
                               ? "text-primary underline underline-offset-8"
                               : "text-zinc-400",
                         )}
@@ -80,13 +80,13 @@ export default function NavBar() {
                     >
                       <div className="flex flex-col justify-between py-2">
                         <Link
-                          href="/"
+                          href="/shop/kits"
                           className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
                         >
                           Uniform Kits
                         </Link>
                         <Link
-                          href={link.href}
+                          href="/shop/gear"
                           className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
                         >
                           Club Gear
