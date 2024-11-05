@@ -19,6 +19,11 @@ export interface ProductCategory {
   options: string[];
 }
 
+export interface ProductTag {
+  id: number;
+  name: string;
+}
+
 export interface WooCommerceProduct {
   id: number;
   name: string;
@@ -28,4 +33,5 @@ export interface WooCommerceProduct {
   stock_status: string;
   attributes: ProductAttribute[];
   categories: ProductCategory[];
+  tags: ProductTag[];
 }
