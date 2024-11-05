@@ -1,20 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function UniformKits() {
   const [teamCode, setTeamCode] = useState("");
-  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (teamCode.trim()) {
-      //router.push(`/uniform-kits/${teamCode}`);
-      router.push("/");
+
+    try {
+      const response = await fetch("/api/team-validation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ teamCode }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Team code is valid; you can redirect or show customization options here
+        console.log("Team found:", result.team);
+      } else {
+        // Handle invalid code (e.g., show an error message)
+        console.log(result.message);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   };
 
