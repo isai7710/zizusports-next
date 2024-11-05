@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function UniformKits() {
   const [teamCode, setTeamCode] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +26,7 @@ export default function UniformKits() {
       if (result.success) {
         // Team code is valid; you can redirect or show customization options here
         console.log("Team found:", result.team);
+        router.push(`/shop/uniform-kits/team/${result.team.id}`);
       } else {
         // Handle invalid code (e.g., show an error message)
         console.log(result.message);
