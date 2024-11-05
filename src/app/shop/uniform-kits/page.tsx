@@ -10,6 +10,7 @@ export default function UniformKits() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Submitting team code: ", teamCode);
 
     try {
       const response = await fetch("/api/team-validation", {
