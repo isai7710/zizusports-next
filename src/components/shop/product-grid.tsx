@@ -1,4 +1,4 @@
-import { getWooProducts } from "@/lib/woocommerce";
+import { getWooProductsByTagId } from "@/lib/woocommerce";
 import Image from "next/image";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ export default async function ProductGrid({
 }: {
   className?: string;
 }) {
-  const products: WooCommerceProduct[] = await getWooProducts();
+  const products: WooCommerceProduct[] = await getWooProductsByTagId("35");
 
   return (
     <section
