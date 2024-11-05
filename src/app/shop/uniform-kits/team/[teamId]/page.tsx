@@ -1,13 +1,6 @@
 import { getWooProductById } from "@/lib/woocommerce";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 import { ProductInteractiveSection } from "@/components/shop/product-interaction";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 
 export default async function ProductPage() {
   const product: WooCommerceProduct = await getWooProductById("1276");
@@ -28,17 +21,6 @@ export default async function ProductPage() {
 
   return (
     <main className="mx-auto mt-6 md:mt-8 max-w-xl px-4 pb-16 sm:px-6 sm:pb-24 md:max-w-4xl md:px-8 2xl:max-w-5xl">
-      <div className="mb-2">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>{product.name}</BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
       <ProductInteractiveSection
         product={product}
         colors={colors}
