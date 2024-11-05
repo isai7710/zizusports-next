@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function UniformKits() {
   const [teamCode, setTeamCode] = useState("");
+  const [isInvalidCode, setIsInvalidCode] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,14 +27,16 @@ export default function UniformKits() {
 
       if (result.success) {
         // Team code is valid; you can redirect or show customization options here
-        console.log("Team found:", result.team);
+        setIsInvalidCode(false);
         router.push(`/shop/uniform-kits/team/${result.team.id}`);
       } else {
         // Handle invalid code (e.g., show an error message)
+        setIsInvalidCode(true);
         console.log(result.message);
       }
     } catch (error) {
       console.error("An error occurred:", error);
+      setIsInvalidCode(true);
     }
   };
 
@@ -63,11 +67,25 @@ export default function UniformKits() {
                 type="text"
                 required
                 value={teamCode}
-                onChange={(e) => setTeamCode(e.target.value)}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+                onChange={(e) => {
+                  setTeamCode(e.target.value);
+                  setIsInvalidCode(false); // Reset error state on change
+                }}
+                className={cn(
+                  "block w-full rounded-md shadow-sm  focus:ring-primary",
+                  isInvalidCode
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300",
+                )}
                 placeholder="Enter your team code..."
               />
             </div>
+            {isInvalidCode && (
+              <p className="mt-2 text-sm text-red-600">
+                Invalid code, please try again or contact your team
+                administrator.
+              </p>
+            )}
           </div>
           <Button
             type="submit"
