@@ -36,7 +36,7 @@ export default async function ProductPage({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/shop">Shop</BreadcrumbLink>
+              <BreadcrumbLink href="/shop/products">Shop</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>{product.name}</BreadcrumbItem>
