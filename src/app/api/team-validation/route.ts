@@ -9,13 +9,22 @@ export async function POST(req: NextRequest) {
 
   // Query the Teams table to check if the team code exists
   const { data, error } = await supabase
-    .from("Teams")
+    .from("Team")
     .select("id, name, clubId")
     .eq("accessCode", teamCode)
     .single();
 
   // Handle cases where the team code is not found or an error occurred
-  if (error || !data) {
+  if (error) {
+    console.error("Error from Supabase:", error); // Log the error
+    return NextResponse.json(
+      { success: false, message: "Invalid team code." },
+      { status: 400 },
+    );
+  }
+
+  if (!data) {
+    console.error("No team found with this code");
     return NextResponse.json(
       { success: false, message: "Invalid team code." },
       { status: 400 },
