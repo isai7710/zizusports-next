@@ -1,7 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+const rateLimitWindow = 60 * 1000;
+const maxRequests = 10;
+const requestCounts = new Map<string, { count: number; lastRequest: number }>();
+
 export async function POST(req: NextRequest) {
+  /* --- CUSTOM IN-MEMORY RATE-LIMITING STORAGE --- */
+  const clientIp = req.headers.get("x-forwarded-for") || req.ip;
+  const currentTime = Date.now();
+
+  const requestLog = requestCounts.get(clientIp!) || {
+    count: 0,
+    lastRequest: currentTime,
+  };
+
+  if (currentTime - requestLog.lastRequest > rateLimitWindow) {
+    requestLog.count = 0;
+    requestLog.lastRequest = currentTime;
+  }
+
+  requestLog.count += 1;
+
+  if (requestLog.count > maxRequests) {
+    return NextResponse.json(
+      { success: false, message: "too many requests" },
+      { status: 429 },
+    );
+  }
+
+  requestCounts.set(clientIp!, requestLog);
+  /* ---------------------------------------------- */
+
+  /* --- TEAM CODE VALIDATION LOGIC --- */
   const { teamCode } = await req.json();
 
   // Create the Supabase client for server-side interaction
@@ -33,4 +64,6 @@ export async function POST(req: NextRequest) {
 
   // If the team code is valid, return team details
   return NextResponse.json({ success: true, team: data });
+
+  /* -------------------------------- */
 }
