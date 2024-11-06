@@ -1,6 +1,7 @@
 "use client";
 
 import { WooCommerceProduct, ProductImage } from "@/lib/types/woocommerce";
+import { Player } from "@/lib/types/supabase";
 import { useState } from "react";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import Image from "next/image";
@@ -17,12 +18,18 @@ interface KitInteractiveSectionProps {
   kit: WooCommerceProduct;
   images: ProductImage[];
   products: WooCommerceProduct[];
+  teamName: string;
+  players: Player[];
+  clubName: string;
 }
 
 export function KitInteractiveSection({
   kit,
   images,
   products,
+  teamName,
+  players,
+  clubName,
 }: KitInteractiveSectionProps) {
   const [currentImage, setCurrentImage] = useState<ProductImage | undefined>(
     images.length > 0 ? images[0] : undefined,
@@ -30,6 +37,10 @@ export function KitInteractiveSection({
   const [selectedProducts, setSelectedProducts] = useState<{
     [key: number]: string;
   }>({});
+  const [selectedPlayer, setSelectedPlayer] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<"black" | "white">(
+    "black",
+  );
 
   const handleSizeChange = (productId: number, size: string) => {
     setSelectedProducts((prev) => ({ ...prev, [productId]: size }));
@@ -86,15 +97,59 @@ export function KitInteractiveSection({
 
         <div className="order-3 md:col-span-5 md:col-start-7 mt-6 md:mt-0">
           <div className="hidden md:block">
-            <div className="flex flex-col md:justify-between items-start mb-2">
+            <div className="flex md:justify-between items-end mb-1">
               <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
                 {kit.name}
               </h1>
-              <p className="text-xl md:text-2xl font-medium text-primary">
+              <h2 className="text-xl md:text-2xl font-medium text-primary">
                 ${kit.price}
-              </p>
+              </h2>
+            </div>
+            <p className="text-lg">
+              {clubName} - {teamName}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between my-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Kit Color
+              </label>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => setSelectedColor("black")}
+                  className={`w-8 h-8 rounded-full bg-black ${selectedColor === "black" ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}
+                  aria-label="Black"
+                />
+                <button
+                  onClick={() => setSelectedColor("white")}
+                  className={`w-8 h-8 rounded-full bg-white border border-gray-300 ${selectedColor === "white" ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}
+                  aria-label="White"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="player-select"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Select Player
+              </label>
+              <Select onValueChange={setSelectedPlayer} value={selectedPlayer}>
+                <SelectTrigger id="player-select" className="w-full">
+                  <SelectValue placeholder="Choose a player" />
+                </SelectTrigger>
+                <SelectContent>
+                  {players.map((player) => (
+                    <SelectItem key={player.id} value={player.id}>
+                      {player.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
+
           <div className="my-6 space-y-4">
             {products.map((product) => (
               <div
