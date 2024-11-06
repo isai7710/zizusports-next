@@ -40,9 +40,9 @@ export async function POST(req: NextRequest) {
 
   // Query the Teams table to check if the team code exists
   const { data, error } = await supabase
-    .from("Team")
-    .select("id, name, clubId")
-    .eq("accessCode", teamCode)
+    .from("Teams")
+    .select("id, name, club_id")
+    .eq("access_code", teamCode)
     .single();
 
   // Handle cases where the team code is not found or an error occurred
