@@ -99,7 +99,7 @@ export function KitInteractiveSection({
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm"
+                className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200"
               >
                 <div className="relative w-16 h-16 flex-shrink-0">
                   {product.images.length > 0 && (
