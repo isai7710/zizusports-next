@@ -9,7 +9,7 @@ export default async function KitPage() {
   const kitImages = kit.images?.length ? kit.images : [];
 
   return (
-    <main className="mx-auto mt-6 md:mt-8 max-w-xl px-4 pb-16 sm:px-6 sm:pb-24 md:max-w-5xl md:px-8">
+    <main className="min-h-screen bg-gradient-to-br from-white-50 to-gray-300 p-8">
       <KitInteractiveSection kit={kit} images={kitImages} products={products} />
 
       {kit.short_description && (
