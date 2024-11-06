@@ -1,3 +1,4 @@
+"use server";
 import axios, { AxiosError } from "axios";
 
 export async function getAllWooProducts() {
