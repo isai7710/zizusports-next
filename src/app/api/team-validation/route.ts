@@ -47,9 +47,9 @@ export async function POST(req: NextRequest) {
 
   // Handle cases where the team code is not found or an error occurred
   if (error) {
-    console.error("Error from Supabase:", error); // Log the error
+    console.error("Error from Supabase:", error, error.message); // Log the error
     return NextResponse.json(
-      { success: false, message: "Invalid team code." },
+      { success: false, message: error.message },
       { status: 400 },
     );
   }
