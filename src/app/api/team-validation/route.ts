@@ -62,8 +62,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // If the team code is valid, return team details
-  return NextResponse.json({ success: true, team: data });
-
+  // If the team code is valid, store team details here (we'll return it after creating a cookie with team session)
+  const response = NextResponse.json({ success: true, team: data });
   /* -------------------------------- */
+
+  /* --- SET COOKIE WITH TEAM SESSION --- */
+  const expires = new Date();
+  expires.setHours(expires.getHours() + 1); // set cookie to expire in one hour
+
+  response.cookies.set("team-session", teamCode, {
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    expires,
+  });
+
+  return response;
 }
