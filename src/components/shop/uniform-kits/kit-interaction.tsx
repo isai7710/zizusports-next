@@ -49,6 +49,16 @@ export function KitInteractiveSection({
   return (
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-4">
       <div className="flex flex-col md:grid md:grid-cols-11 md:gap-x-6">
+        <div className="block md:hidden">
+          <div className="flex md:justify-between items-end mb-1">
+            <h1 className="text-2xl font-semibold text-gray-900">{kit.name}</h1>
+            <h2 className="text-xl font-medium text-primary">${kit.price}</h2>
+          </div>
+          <p className="text-lg">
+            {clubName} - {teamName}
+          </p>
+        </div>
+
         <div className="order-2 md:order-1 md:col-span-1 md:col-start-1 md:row-start-1">
           <div
             className={cn(
@@ -81,7 +91,7 @@ export function KitInteractiveSection({
         </div>
 
         <div className="order-1 md:order-2 md:col-span-5 md:col-start-2 md:row-start-1">
-          <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden rounded-xl">
+          <div className="relative w-full aspect-square md:aspect-[2/3] overflow-hidden rounded-xl">
             {currentImage && (
               <Image
                 key={currentImage.id}
