@@ -1,13 +1,10 @@
 import { createContext, useContext } from "react";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
-export interface CartItem {
+export interface ProductCartItem {
   id: number;
-  productId: number;
-  name: string;
-  price: number;
+  product: WooCommerceProduct;
   quantity: number;
-  image?: string;
   selectedAttributes: {
     color?: string;
     size?: string;
@@ -16,11 +13,11 @@ export interface CartItem {
 }
 
 interface CartContextType {
-  items: CartItem[];
+  items: ProductCartItem[];
   addItem: (
     product: WooCommerceProduct,
     quantity: number,
-    selectedAttributes: CartItem["selectedAttributes"],
+    selectedAttributes: ProductCartItem["selectedAttributes"],
   ) => void;
   removeItem: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
