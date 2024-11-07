@@ -49,25 +49,28 @@ export function CartModal() {
                     key={item.id}
                     className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm"
                   >
-                    {item.image && (
+                    {item.product.images && (
                       <div className="relative w-20 h-20 flex-shrink-0">
                         <Image
-                          src={`https://res.cloudinary.com/de463zyga/image/upload/${item.image}.png`}
-                          alt={item.name}
+                          src={`https://res.cloudinary.com/de463zyga/image/upload/${item.product.images[0].name}.png`}
+                          alt={item.product.name}
                           fill
                           className="object-cover rounded-md"
                         />
                       </div>
                     )}
                     <div className="flex-grow">
-                      <h3 className="font-medium">{item.name}</h3>
+                      <h3 className="font-medium">{item.product.name}</h3>
                       <div className="text-sm text-gray-500">
-                        {Object.entries(item.selectedAttributes).map(
-                          ([key, value]) => (
-                            <span key={key} className="mr-2">
-                              {key}: {value}
-                            </span>
-                          ),
+                        {item.selectedAttributes.size && (
+                          <span className="mr-2">
+                            Size: {item.selectedAttributes.size}
+                          </span>
+                        )}
+                        {item.selectedAttributes.color && (
+                          <span className="mr-2">
+                            Color: {item.selectedAttributes.color}
+                          </span>
                         )}
                       </div>
                       <div className="mt-2 flex items-center justify-between">
@@ -94,7 +97,10 @@ export function CartModal() {
                           </button>
                         </div>
                         <span className="font-medium">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          $
+                          {(
+                            parseFloat(item.product.price) * item.quantity
+                          ).toFixed(2)}
                         </span>
                       </div>
                     </div>
