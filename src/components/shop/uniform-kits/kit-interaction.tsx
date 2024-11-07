@@ -50,11 +50,11 @@ export function KitInteractiveSection({
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-4">
       <div className="flex flex-col md:grid md:grid-cols-11 md:gap-x-6">
         <div className="block md:hidden">
-          <div className="flex md:justify-between items-end mb-1">
+          <div className="flex justify-between items-end mb-1">
             <h1 className="text-2xl font-semibold text-gray-900">{kit.name}</h1>
             <h2 className="text-xl font-medium text-primary">${kit.price}</h2>
           </div>
-          <p className="text-lg">
+          <p className="text-lg mb-2">
             {clubName} - {teamName}
           </p>
         </div>
