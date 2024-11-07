@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { CartItem, CartContext } from "./cart-context";
+import { ProductCartItem, CartContext } from "./cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<ProductCartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   // Load cart from localStorage on mount
@@ -24,40 +24,35 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = (
     product: WooCommerceProduct,
     quantity: number,
-    selectedAttributes: CartItem["selectedAttributes"],
+    selectedAttributes: ProductCartItem["selectedAttributes"],
   ) => {
     setItems((currentItems) => {
-      // Create a unique ID for this cart item based on product ID and selected attributes
       const attributeString = Object.entries(selectedAttributes)
         .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
         .map(([key, value]) => `${key}:${value}`)
         .join("|");
       const cartItemId = parseInt(
-        `${product.id}${attributeString.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)}`,
+        `${product.id}${attributeString
+          .split("")
+          .reduce((acc, char) => acc + char.charCodeAt(0), 0)}`,
       );
 
-      // Check if item with same product ID and attributes already exists
       const existingItemIndex = currentItems.findIndex(
-        (item) => item.id === cartItemId,
+        (item) => item.product.id === product.id && item.id === cartItemId,
       );
 
       if (existingItemIndex > -1) {
-        // Update quantity of existing item
         const newItems = [...currentItems];
         newItems[existingItemIndex].quantity += quantity;
         return newItems;
       }
 
-      // Add new item
       return [
         ...currentItems,
         {
           id: cartItemId,
-          productId: product.id,
-          name: product.name,
-          price: parseFloat(product.price),
+          product,
           quantity,
-          image: product.images?.[0]?.name,
           selectedAttributes,
         },
       ];
@@ -86,7 +81,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getTotalPrice = () => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return items.reduce(
+      (total, item) => total + parseFloat(item.product.price) * item.quantity,
+      0,
+    );
   };
 
   const toggleModal = () => setIsOpen((prev) => !prev);
