@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ProductCartItem, CartContext } from "./cart-context";
+import { ProductCartItem, KitCartItem, CartContext } from "./cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<ProductCartItem[]>([]);
+  const [items, setItems] = useState<(ProductCartItem | KitCartItem)[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   // Load cart from localStorage on mount
@@ -21,7 +21,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("cart", JSON.stringify(items));
   }, [items]);
 
-  const addItem = (
+  const addProductItem = (
     product: WooCommerceProduct,
     quantity: number,
     selectedAttributes: ProductCartItem["selectedAttributes"],
@@ -38,7 +38,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       );
 
       const existingItemIndex = currentItems.findIndex(
-        (item) => item.product.id === product.id && item.id === cartItemId,
+        (item) =>
+          "product" in item && // type guard to ensure item we're looking for is of ProductCartItem type
+          item.product.id === product.id &&
+          item.id === cartItemId,
       );
 
       if (existingItemIndex > -1) {
@@ -54,6 +57,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           product,
           quantity,
           selectedAttributes,
+        } as ProductCartItem,
+      ];
+    });
+  };
+
+  const addKitItem = (kit: KitCartItem, quantity: number) => {
+    setItems((currentItems) => {
+      // Find if the kit already exists in the cart by checking kitItemId
+      const existingItemIndex = currentItems.findIndex(
+        (item) =>
+          "jersey" in item && // Type guard to check if it's a KitCartItem
+          item.id === kit.id,
+      );
+
+      if (existingItemIndex > -1) {
+        // If item exists, update the quantity
+        const newItems = [...currentItems];
+        newItems[existingItemIndex].quantity += quantity;
+        return newItems;
+      }
+
+      // Otherwise, add a new kit to the cart
+      return [
+        ...currentItems,
+        {
+          ...kit, // Spread the original kit item
+          quantity, // Set the initial quantity
         },
       ];
     });
@@ -81,10 +111,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getTotalPrice = () => {
-    return items.reduce(
-      (total, item) => total + parseFloat(item.product.price) * item.quantity,
-      0,
-    );
+    return items.reduce((total, item) => {
+      if ("product" in item) {
+        // Handle ProductCartItem
+        const productPrice = parseFloat(item.product.price);
+        return total + productPrice * item.quantity;
+      } else if ("jersey" in item) {
+        return total + item.price * item.quantity;
+      }
+      return total;
+    }, 0);
   };
 
   const toggleModal = () => setIsOpen((prev) => !prev);
@@ -93,7 +129,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider
       value={{
         items,
-        addItem,
+        addProductItem,
+        addKitItem,
         removeItem,
         updateQuantity,
         clearCart,
