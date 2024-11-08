@@ -4,7 +4,7 @@ import { WooCommerceProduct, ProductImage } from "@/lib/types/woocommerce";
 import { useState } from "react";
 import { ColorPicker } from "@/components/shop/color-picker";
 import { SizePicker } from "@/components/shop/size-picker";
-import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { AddProductToCartButton } from "@/components/cart/add-to-cart-button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import ProductHeader from "./product-header";
@@ -106,7 +106,7 @@ export function ProductInteractiveSection({
             />
           )}
 
-          <AddToCartButton
+          <AddProductToCartButton
             product={product}
             selectedColor={selectedColor}
             selectedSize={selectedSize}
