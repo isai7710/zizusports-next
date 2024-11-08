@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 export interface ProductCartItem {
-  id: number;
+  id: number; // Unique identifier for product in cart, depending on attributes selected for product
   product: WooCommerceProduct;
   quantity: number;
   selectedAttributes: {
@@ -12,13 +12,37 @@ export interface ProductCartItem {
   };
 }
 
+export interface KitCartItem {
+  id: number; // Unique identifier for the kit in the cart, similar to ProductCartItem's id
+  name: string;
+  img: string;
+  jersey: {
+    product: WooCommerceProduct;
+    size: string;
+  };
+  shorts: {
+    product: WooCommerceProduct;
+    size: string;
+  };
+  socks: {
+    product: WooCommerceProduct;
+    size: string;
+  };
+  globalColor: string; // Color that applies to all items in the kit
+  price: number;
+  player: string; // Name of the player associated with this kit
+  team: string; // Team associated with the kit
+  quantity: number; // Quantity of the kit
+}
+
 interface CartContextType {
-  items: ProductCartItem[];
-  addItem: (
+  items: (ProductCartItem | KitCartItem)[];
+  addProductItem: (
     product: WooCommerceProduct,
     quantity: number,
     selectedAttributes: ProductCartItem["selectedAttributes"],
   ) => void;
+  addKitItem: (kit: KitCartItem, quantity: number) => void;
   removeItem: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
