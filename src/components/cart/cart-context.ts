@@ -42,7 +42,7 @@ interface CartContextType {
     quantity: number,
     selectedAttributes: ProductCartItem["selectedAttributes"],
   ) => void;
-  addKitItem: (kit: KitCartItem, quantity: number) => void;
+  addKitItem: (kit: Omit<KitCartItem, "id">) => void;
   removeItem: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
