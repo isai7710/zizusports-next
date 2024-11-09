@@ -1,6 +1,6 @@
 "use client";
 
-import { KitCartItem, useCart } from "@/components/cart/cart-context";
+import { useCart } from "@/components/cart/cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
 interface AddProductToCartButtonProps {
@@ -57,7 +57,6 @@ export function AddKitToCartButton({
   const { addKitItem, toggleModal } = useCart();
 
   const handleAddToCart = () => {
-    console.log("in handle add to cart func");
     const jerseyProduct = products.find((product) =>
       product.name.toLowerCase().includes("jersey"),
     );
@@ -68,17 +67,12 @@ export function AddKitToCartButton({
       product.name.toLowerCase().includes("socks"),
     );
 
-    console.log(selectedProducts[1]);
-
     if (!jerseyProduct || !shortsProduct || !socksProduct) {
       console.error("Missing product details for kit components!");
       return;
     }
     // Create a KitCartItem
-    const kitCartItem: KitCartItem = {
-      id: parseInt(
-        `${selectedProducts[1]}${selectedProducts[2]}${selectedProducts[3]}${selectedColor}`,
-      ), // Generate a unique ID for the kit (based on product IDs and color)
+    const kitData = {
       name: kitName,
       img: jerseyProduct.images[0]?.name || "", // Assuming the jersey image is used for kit image
       jersey: {
@@ -100,7 +94,7 @@ export function AddKitToCartButton({
       quantity: 1,
     };
 
-    addKitItem(kitCartItem, 1);
+    addKitItem(kitData);
     toggleModal();
   };
 
