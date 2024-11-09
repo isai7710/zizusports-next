@@ -71,7 +71,8 @@ export function AddKitToCartButton({
       console.error("Missing product details for kit components!");
       return;
     }
-    // Create a KitCartItem
+
+    // Create kitData object to send to addKitToCart method in cart context
     const kitData = {
       name: kitName,
       img: jerseyProduct.images[0]?.name || "", // Assuming the jersey image is used for kit image
