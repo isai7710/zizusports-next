@@ -147,7 +147,7 @@ export function KitInteractiveSection({
                   Select Player
                 </label>
                 <Select
-                  onValueChange={setSelectedPlayer}
+                  onValueChange={(value) => setSelectedPlayer(value)}
                   value={selectedPlayer}
                 >
                   <SelectTrigger id="player-select" className="w-full">
@@ -155,7 +155,7 @@ export function KitInteractiveSection({
                   </SelectTrigger>
                   <SelectContent>
                     {players.map((player) => (
-                      <SelectItem key={player.id} value={player.id}>
+                      <SelectItem key={player.id} value={player.name}>
                         {player.name}
                       </SelectItem>
                     ))}
