@@ -1,12 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ProductCartItem, KitCartItem, CartContext } from "./cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
+import { generateKitId } from "@/lib/cart-utils";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<(ProductCartItem | KitCartItem)[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  // Memoize expensive calculations
+  const totalItems = useMemo(
+    () => items.reduce((total, item) => total + item.quantity, 0),
+    [items],
+  );
+
+  const totalPrice = useMemo(
+    () =>
+      items.reduce((total, item) => {
+        if ("product" in item) {
+          return total + parseFloat(item.product.price) * item.quantity;
+        }
+        return total + item.price * item.quantity;
+      }, 0),
+    [items],
+  );
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -62,32 +80,45 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const addKitItem = (kit: KitCartItem, quantity: number) => {
-    setItems((currentItems) => {
-      // Find if the kit already exists in the cart by checking kitItemId
-      const existingItemIndex = currentItems.findIndex(
-        (item) =>
-          "jersey" in item && // Type guard to check if it's a KitCartItem
-          item.id === kit.id,
-      );
+  const addKitItem = useCallback((kitData: Omit<KitCartItem, "id">) => {
+    try {
+      const kit: KitCartItem = {
+        ...kitData,
+        id: generateKitId(kitData),
+      };
 
-      if (existingItemIndex > -1) {
-        // If item exists, update the quantity
-        const newItems = [...currentItems];
-        newItems[existingItemIndex].quantity += quantity;
-        return newItems;
-      }
+      // Optional: Validate with Zod
+      // const validatedKit = KitCartItemSchema.parse(kit);
 
-      // Otherwise, add a new kit to the cart
-      return [
-        ...currentItems,
-        {
-          ...kit, // Spread the original kit item
-          quantity, // Set the initial quantity
-        },
-      ];
-    });
-  };
+      setItems((currentItems) => {
+        // Find if the kit already exists in the cart by checking kitItemId
+        const existingItemIndex = currentItems.findIndex(
+          (item) =>
+            "jersey" in item && // Type guard to check if it's a KitCartItem
+            item.id === kit.id,
+        );
+
+        if (existingItemIndex > -1) {
+          return currentItems.map((item, index) =>
+            index === existingItemIndex
+              ? { ...item, quantity: item.quantity + 1 }
+              : item,
+          );
+        }
+
+        // Otherwise, add a new kit to the cart
+        return [...currentItems, kit];
+      });
+    } catch (error) {
+      //--- ZOD ERROR HANDLING
+      //if (error instanceof z.ZodError) {
+      // Handle validation errors
+      //        console.error("Invalid kit data:", error.errors);
+      // You could show these errors to the user with a toast notification
+      //     }
+      console.error("Invalid kit data:", error);
+    }
+  }, []);
 
   const removeItem = (id: number) => {
     setItems((currentItems) => currentItems.filter((item) => item.id !== id));
@@ -106,23 +137,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems([]);
   };
 
-  const getTotalItems = () => {
-    return items.reduce((total, item) => total + item.quantity, 0);
-  };
-
-  const getTotalPrice = () => {
-    return items.reduce((total, item) => {
-      if ("product" in item) {
-        // Handle ProductCartItem
-        const productPrice = parseFloat(item.product.price);
-        return total + productPrice * item.quantity;
-      } else if ("jersey" in item) {
-        return total + item.price * item.quantity;
-      }
-      return total;
-    }, 0);
-  };
-
   const toggleModal = () => setIsOpen((prev) => !prev);
 
   return (
@@ -134,8 +148,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         removeItem,
         updateQuantity,
         clearCart,
-        getTotalItems,
-        getTotalPrice,
+        getTotalItems: () => totalItems,
+        getTotalPrice: () => totalPrice,
         isOpen,
         toggleModal,
       }}
