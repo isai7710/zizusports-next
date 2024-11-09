@@ -31,10 +31,8 @@ export default function KitModalCard({ item }: KitModalCardProps) {
           <span className="mr-2">Short: {item.shorts.size}</span>
           <span>Sock: {item.socks.size}</span>
         </div>
-        {item.playerName && (
-          <div className="text-sm font-medium mt-1">
-            Player: {item.playerName}
-          </div>
+        {item.player && (
+          <div className="text-sm font-medium mt-1">Player: {item.player}</div>
         )}
         <div className="mt-2 flex items-center justify-between">
           <div className="flex items-center space-x-2">
