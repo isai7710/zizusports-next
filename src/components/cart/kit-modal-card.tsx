@@ -12,7 +12,7 @@ export default function KitModalCard({ item }: KitModalCardProps) {
     <div className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm">
       <div className="relative w-20 h-20 flex-shrink-0">
         <Image
-          src={`https://res.cloudinary.com/de463zyga/image/upload/uniform${item.globalColor}.png`}
+          src={`https://res.cloudinary.com/de463zyga/image/upload/${item.img}.png`}
           alt={item.name}
           fill
           className="object-cover rounded-md"

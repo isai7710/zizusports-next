@@ -39,7 +39,7 @@ interface AddKitToCartButtonProps {
   kitPrice: string;
   kitImage: string;
   selectedPlayer: string;
-  selectedColor: "Black" | "White";
+  selectedColor: string;
   selectedProducts: Record<number, string>;
   products: WooCommerceProduct[];
   teamName: string;
@@ -48,6 +48,7 @@ interface AddKitToCartButtonProps {
 export function AddKitToCartButton({
   kitName,
   kitPrice,
+  kitImage,
   selectedPlayer,
   selectedColor,
   selectedProducts,
@@ -75,7 +76,7 @@ export function AddKitToCartButton({
     // Create kitData object to send to addKitToCart method in cart context
     const kitData = {
       name: kitName,
-      img: jerseyProduct.images[0]?.name || "", // Assuming the jersey image is used for kit image
+      img: kitImage,
       jersey: {
         product: jerseyProduct,
         size: selectedProducts[jerseyProduct.id], // selected size for jersey
