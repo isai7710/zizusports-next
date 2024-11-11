@@ -1,8 +1,7 @@
 "use client";
 
-import { WooCommerceProduct } from "@/lib/types/woocommerce";
-import { Player } from "@/lib/types/supabase";
 import { useState } from "react";
+import { KitInfo } from "@/lib/types/kit";
 import { AddKitToCartButton } from "@/components/cart/add-to-cart-button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -14,41 +13,40 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface KitInteractiveSectionProps {
-  kitName: string;
-  kitPrice: string;
-  images: string[];
-  products: WooCommerceProduct[];
-  teamName: string;
-  players: Player[];
-  clubName: string;
-}
+export function KitInteractiveSection(props: KitInfo) {
+  const {
+    kitName,
+    kitPrice,
+    images,
+    colors,
+    products,
+    teamName,
+    players,
+    clubName,
+  } = props;
 
-export function KitInteractiveSection({
-  kitName,
-  kitPrice,
-  images,
-  products,
-  teamName,
-  players,
-  clubName,
-}: KitInteractiveSectionProps) {
   const [currentImage, setCurrentImage] = useState<string>(images[0] || "");
   const [selectedProducts, setSelectedProducts] = useState<
     Record<number, string>
   >({});
   const [selectedPlayer, setSelectedPlayer] = useState<string>("");
-  const [selectedColor, setSelectedColor] = useState<"Black" | "White">(
-    "Black",
-  );
+  const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
 
   const handleSizeChange = (productId: number, size: string) => {
     setSelectedProducts((prev) => ({ ...prev, [productId]: size }));
   };
+  // Update color and image on color button click
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color);
+    const colorImage = images.find((img) =>
+      img.toLowerCase().includes(color.toLowerCase()),
+    );
+    setCurrentImage(colorImage || images[0]); // Default to the first image if no match
+  };
 
   return (
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-4">
-      <div className="flex flex-col md:grid md:grid-cols-11 md:gap-x-6">
+      <div className="flex flex-col md:grid md:grid-cols-10 md:gap-x-6">
         <div className="block md:hidden">
           <div className="flex justify-between items-end mb-1">
             <h1 className="text-2xl font-semibold text-gray-900">{kitName}</h1>
@@ -59,38 +57,7 @@ export function KitInteractiveSection({
           </p>
         </div>
 
-        <div className="order-2 md:order-1 md:col-span-1 md:col-start-1 md:row-start-1">
-          <div
-            className={cn(
-              "flex md:grid md:grid-rows-4 gap-2",
-              "overflow-x-auto md:overflow-x-visible",
-              "my-4 md:my-0 space-x-2 md:space-x-0",
-            )}
-          >
-            {images.map((img, index) => (
-              <div
-                key={index}
-                onClick={() => setCurrentImage(img)}
-                className={cn(
-                  currentImage === img
-                    ? "border-2 border-primary/20"
-                    : "border-none",
-                  "relative w-16 md:w-full aspect-[2/3] flex-shrink-0 md:flex-shrink",
-                  "overflow-hidden rounded-md cursor-pointer",
-                )}
-              >
-                <Image
-                  src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.png`}
-                  alt={img}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="order-1 md:order-2 md:col-span-5 md:col-start-2 md:row-start-1">
+        <div className="order-1 md:order-2 md:col-span-5 md:col-start-1 md:row-start-1">
           <div className="relative w-full aspect-square md:aspect-[2/3] overflow-hidden rounded-xl">
             {currentImage && (
               <Image
@@ -105,7 +72,7 @@ export function KitInteractiveSection({
           </div>
         </div>
 
-        <div className="order-3 md:col-span-5 md:col-start-7 mt-6 md:mt-0">
+        <div className="order-3 md:col-span-5 md:col-start-6 mt-6 md:mt-0">
           <div className="hidden md:block">
             <div className="flex md:justify-between items-end mb-1">
               <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
@@ -123,20 +90,24 @@ export function KitInteractiveSection({
           <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
             <div className="flex items-center justify-between my-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Kit Color
                 </label>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => setSelectedColor("Black")}
-                    className={`w-8 h-8 rounded-full bg-black ${selectedColor === "Black" ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}
-                    aria-label="Black"
-                  />
-                  <button
-                    onClick={() => setSelectedColor("White")}
-                    className={`w-8 h-8 rounded-full bg-white border border-gray-300 ${selectedColor === "White" ? "ring-2 ring-blue-500 ring-offset-2" : ""}`}
-                    aria-label="White"
-                  />
+                <div className="flex space-x-2">
+                  {colors.map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => handleColorChange(color)}
+                      className={cn(
+                        `w-8 h-8 rounded-full ${color.toLowerCase()}-color border border-gray-300`,
+                        selectedColor === color
+                          ? "ring-2 ring-blue-500 ring-offset-2"
+                          : "",
+                      )}
+                      aria-label={color}
+                      style={{ backgroundColor: color.toLowerCase() }} // Assuming color names match CSS color names, or use a color map if necessary
+                    />
+                  ))}
                 </div>
               </div>
               <div>
