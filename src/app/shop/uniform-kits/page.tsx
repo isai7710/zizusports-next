@@ -3,18 +3,19 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export default function UniformKits() {
   const [teamCode, setTeamCode] = useState("");
   const [isInvalidCode, setIsInvalidCode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting team code: ", teamCode);
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/team-validation", {
@@ -37,6 +38,8 @@ export default function UniformKits() {
     } catch (error) {
       console.error("An error occurred:", error);
       setIsInvalidCode(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,10 +92,19 @@ export default function UniformKits() {
           </div>
           <Button
             type="submit"
+            disabled={isLoading}
             className="w-full flex justify-between items-center text-palette-3"
           >
-            Access Uniform Kit
-            <ArrowRight className="ml-2 h-4 w-4" />
+            {isLoading ? (
+              <>
+                Loading <Loader className="animate-spin ml-2 h-4 w-4" />
+              </>
+            ) : (
+              <>
+                Access Uniform Kit
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
           </Button>
         </form>
       </div>
