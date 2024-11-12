@@ -2,6 +2,7 @@ import { X } from "react-feather";
 import { useCart } from "@/components/cart/cart-context";
 import ProductModalCard from "./product-modal-card";
 import KitModalCard from "./kit-modal-card";
+import Link from "next/link";
 
 export function CartModal() {
   const { items, getTotalPrice, isOpen, toggleModal } = useCart();
@@ -31,7 +32,7 @@ export function CartModal() {
             </button>
           </div>
 
-          <div className="flex-grow overflow-y-auto">
+          <div className="flex-grow overflow-y-auto pr-2">
             {items.length === 0 ? (
               <p className="text-gray-500 text-center py-8">
                 Your cart is empty.
@@ -59,9 +60,11 @@ export function CartModal() {
                   ${getTotalPrice().toFixed(2)}
                 </span>
               </div>
-              <button className="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">
-                Checkout
-              </button>
+              <Link href="/checkout" onClick={toggleModal}>
+                <button className="w-full bg-primary text-white py-3 px-4 rounded-md hover:bg-primary-dark transition-colors duration-200">
+                  Checkout
+                </button>
+              </Link>
             </div>
           )}
         </div>
