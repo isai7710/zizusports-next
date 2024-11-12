@@ -36,7 +36,7 @@ export default async function KitPage({
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-white-50 to-gray-300 p-8">
+    <main className="min-h-screen bg-gradient-to-br from-white-50 to-gray-300 p-2 md:p-8">
       <KitInteractiveSection {...kitInfo} />
 
       {kit.short_description && (
