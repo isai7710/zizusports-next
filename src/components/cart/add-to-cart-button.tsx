@@ -1,5 +1,3 @@
-"use client";
-
 import { useCart } from "@/components/cart/cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 
@@ -43,6 +41,9 @@ interface AddKitToCartButtonProps {
   selectedProducts: Record<number, string>;
   products: WooCommerceProduct[];
   teamName: string;
+  setErrors: React.Dispatch<
+    React.SetStateAction<{ player: boolean; products: Record<number, boolean> }>
+  >;
 }
 
 export function AddKitToCartButton({
@@ -54,10 +55,34 @@ export function AddKitToCartButton({
   selectedProducts,
   teamName,
   products,
+  setErrors,
 }: AddKitToCartButtonProps) {
   const { addKitItem, toggleModal } = useCart();
 
   const handleAddToCart = () => {
+    const missingFields: {
+      player: boolean;
+      products: Record<number, boolean>;
+    } = {
+      player: !selectedPlayer,
+      products: {},
+    };
+    // Check for missing product sizes
+    products.forEach((product) => {
+      if (!selectedProducts[product.id]) {
+        missingFields.products[product.id] = true;
+      }
+    });
+
+    // Set errors if any fields are missing
+    if (
+      missingFields.player ||
+      Object.values(missingFields.products).some((val) => val)
+    ) {
+      setErrors(missingFields);
+      return;
+    }
+
     const jerseyProduct = products.find((product) =>
       product.name.toLowerCase().includes("jersey"),
     );
@@ -96,6 +121,7 @@ export function AddKitToCartButton({
       quantity: 1,
     };
 
+    setErrors({ player: false, products: {} });
     addKitItem(kitData);
     toggleModal();
   };
