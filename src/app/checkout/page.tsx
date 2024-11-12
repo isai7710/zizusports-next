@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import ProductModalCard from "@/components/cart/product-modal-card";
 import KitModalCard from "@/components/cart/kit-modal-card";
+import { cn } from "@/lib/utils";
 
 export default function CheckoutPage() {
   const { items, getTotalPrice } = useCart();
@@ -36,8 +37,11 @@ export default function CheckoutPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {items.map((item) => (
-                <div key={item.id}>
+              {items.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={cn(index === items.length - 1) ? "" : "mb-4"}
+                >
                   {"product" in item ? (
                     <ProductModalCard item={item} />
                   ) : (
@@ -48,7 +52,7 @@ export default function CheckoutPage() {
             </CardContent>
             <CardFooter className="flex flex-col">
               <Separator />
-              <div className="w-full flex justify-between items-center font-bold">
+              <div className="w-full flex justify-between items-center font-bold mt-1">
                 <p>Total</p>
                 <p>${getTotalPrice().toFixed(2)}</p>
               </div>
