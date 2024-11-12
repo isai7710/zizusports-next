@@ -40,10 +40,10 @@ export default function KitModalCard({ item }: KitModalCardProps) {
         <div className="flex items-start space-x-4">
           <div className="relative w-24 h-24 flex-shrink-0">
             <Image
-              src={`https://res.cloudinary.com/de463zyga/image/upload/${item.img}.png`}
+              src={`https://res.cloudinary.com/de463zyga/image/upload/uniform${item.globalColor}.png`}
               alt={item.name}
               fill
-              className="object-cover rounded-md"
+              className="object-contain shadow-md rounded-md"
             />
           </div>
           <div className="flex-grow space-y-3">
