@@ -35,6 +35,14 @@ export function KitInteractiveSection(props: KitInfo) {
   const [selectedPlayer, setSelectedPlayer] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
 
+  const [errors, setErrors] = useState<{
+    player: boolean;
+    products: Record<number, boolean>;
+  }>({
+    player: false,
+    products: {},
+  });
+
   useEffect(() => {
     // Initialize `currentImages` with the first image of each product
     const initialImages: Record<number, string> = {};
@@ -45,8 +53,17 @@ export function KitInteractiveSection(props: KitInfo) {
     setCurrentProductImages(initialImages);
   }, [products]);
 
+  const handlePlayerChange = (value: string) => {
+    setSelectedPlayer(value);
+    setErrors((prevErrors) => ({ ...prevErrors, player: false }));
+  };
+
   const handleSizeChange = (productId: number, size: string) => {
     setSelectedProducts((prev) => ({ ...prev, [productId]: size }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      products: { ...prevErrors.products, [productId]: false },
+    })); // Clear error for this product on selection
   };
 
   const handleColorChange = (color: string) => {
@@ -170,11 +187,17 @@ export function KitInteractiveSection(props: KitInfo) {
                   Select Player
                 </label>
                 <Select
-                  onValueChange={(value) => setSelectedPlayer(value)}
+                  onValueChange={(value) => handlePlayerChange(value)}
                   value={selectedPlayer}
                 >
-                  <SelectTrigger id="player-select" className="w-full">
-                    <SelectValue placeholder="Choose a player" />
+                  <SelectTrigger
+                    id="player-select"
+                    className={cn(
+                      "w-full",
+                      errors.player ? "border-red-500 ring-red-500" : "",
+                    )}
+                  >
+                    <SelectValue placeholder="Choose a player..." />
                   </SelectTrigger>
                   <SelectContent>
                     {players.map((player) => (
@@ -184,6 +207,11 @@ export function KitInteractiveSection(props: KitInfo) {
                     ))}
                   </SelectContent>
                 </Select>
+                {errors.player && (
+                  <p className="text-red-500 text-sm">
+                    Please select a player.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -215,7 +243,14 @@ export function KitInteractiveSection(props: KitInfo) {
                     }
                     value={selectedProducts[product.id] || ""}
                   >
-                    <SelectTrigger className="w-[100px]">
+                    <SelectTrigger
+                      className={cn(
+                        "w-[100px]",
+                        errors.products[product.id]
+                          ? "border-red-500 ring-red-500"
+                          : "",
+                      )}
+                    >
                       <SelectValue placeholder="Size" />
                     </SelectTrigger>
                     <SelectContent>
@@ -228,6 +263,11 @@ export function KitInteractiveSection(props: KitInfo) {
                         ))}
                     </SelectContent>
                   </Select>
+                  {errors.products[product.id] && (
+                    <p className="text-red-500 text-sm">
+                      Please select a size for {product.name}.
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -240,6 +280,7 @@ export function KitInteractiveSection(props: KitInfo) {
               selectedProducts={selectedProducts}
               teamName={teamName}
               products={products}
+              setErrors={setErrors}
             />
           </form>
         </div>
