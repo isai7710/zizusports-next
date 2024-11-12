@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KitInfo } from "@/lib/types/kit";
 import { AddKitToCartButton } from "@/components/cart/add-to-cart-button";
 import Image from "next/image";
@@ -26,27 +26,48 @@ export function KitInteractiveSection(props: KitInfo) {
   } = props;
 
   const [currentImage, setCurrentImage] = useState<string>(images[0] || "");
+  const [currentProductImages, setCurrentProductImages] = useState<
+    Record<number, string>
+  >({});
   const [selectedProducts, setSelectedProducts] = useState<
     Record<number, string>
   >({});
   const [selectedPlayer, setSelectedPlayer] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>(colors[0] || "");
 
+  useEffect(() => {
+    // Initialize `currentImages` with the first image of each product
+    const initialImages: Record<number, string> = {};
+    products.forEach((product) => {
+      initialImages[product.id] =
+        `https://res.cloudinary.com/de463zyga/image/upload/${product.images[0].name}`;
+    });
+    setCurrentProductImages(initialImages);
+  }, [products]);
+
   const handleSizeChange = (productId: number, size: string) => {
     setSelectedProducts((prev) => ({ ...prev, [productId]: size }));
   };
-  // Update color and image on color button click
+
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
-    const colorImage = images.find((img) =>
-      img.toLowerCase().includes(color.toLowerCase()),
-    );
-    setCurrentImage(colorImage || images[0]); // Default to the first image if no match
+
+    // Update each product image based on color
+    const updatedImages: Record<number, string> = {};
+    products.forEach((product) => {
+      const colorSpecificImage = product.images.find((img) =>
+        img.name.toLowerCase().includes(color.toLowerCase()),
+      );
+      updatedImages[product.id] = colorSpecificImage
+        ? `https://res.cloudinary.com/de463zyga/image/upload/${colorSpecificImage.name}`
+        : `https://res.cloudinary.com/de463zyga/image/upload/${product.images[0].name}`;
+    });
+    setCurrentProductImages(updatedImages);
   };
 
   return (
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-4">
-      <div className="flex flex-col md:grid md:grid-cols-10 md:gap-x-6">
+      <div className="flex flex-col md:grid md:grid-cols-11 md:gap-x-6">
         <div className="block md:hidden">
           <div className="flex justify-between items-end mb-1">
             <h1 className="text-2xl font-semibold text-gray-900">{kitName}</h1>
@@ -57,7 +78,38 @@ export function KitInteractiveSection(props: KitInfo) {
           </p>
         </div>
 
-        <div className="order-1 md:order-2 md:col-span-5 md:col-start-1 md:row-start-1">
+        <div className="order-2 md:order-1 md:col-span-1 md:col-start-1 md:row-start-1">
+          <div
+            className={cn(
+              "flex md:grid md:grid-rows-4 gap-2",
+              "overflow-x-auto md:overflow-x-visible",
+              "my-4 md:my-0 space-x-2 md:space-x-0",
+            )}
+          >
+            {images.map((img, index) => (
+              <div
+                key={index}
+                onClick={() => setCurrentImage(img)}
+                className={cn(
+                  currentImage === img
+                    ? "border border-primary/30 shadow-md"
+                    : "border border-gray-200",
+                  "relative w-16 md:w-full aspect-square flex-shrink-0 md:flex-shrink",
+                  "overflow-hidden rounded-md cursor-pointer",
+                )}
+              >
+                <Image
+                  src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.png`}
+                  alt={img}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="order-1 md:order-2 md:col-span-5 md:col-start-2 md:row-start-1">
           <div className="relative w-full aspect-square md:aspect-[2/3] overflow-hidden rounded-xl">
             {currentImage && (
               <Image
@@ -66,13 +118,13 @@ export function KitInteractiveSection(props: KitInfo) {
                 alt={currentImage}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
+                className="object-contain"
               />
             )}
           </div>
         </div>
 
-        <div className="order-3 md:col-span-5 md:col-start-6 mt-6 md:mt-0">
+        <div className="order-3 md:col-span-5 md:col-start-7 mt-6 md:mt-0">
           <div className="hidden md:block">
             <div className="flex md:justify-between items-end mb-1">
               <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
@@ -105,7 +157,7 @@ export function KitInteractiveSection(props: KitInfo) {
                           : "",
                       )}
                       aria-label={color}
-                      style={{ backgroundColor: color.toLowerCase() }} // Assuming color names match CSS color names, or use a color map if necessary
+                      style={{ backgroundColor: color.toLowerCase() }}
                     />
                   ))}
                 </div>
@@ -142,9 +194,9 @@ export function KitInteractiveSection(props: KitInfo) {
                   className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200"
                 >
                   <div className="relative w-16 h-16 flex-shrink-0">
-                    {product.images.length > 0 && (
+                    {currentProductImages[product.id] && (
                       <Image
-                        src={`https://res.cloudinary.com/de463zyga/image/upload/${product.images[0].name}`}
+                        src={currentProductImages[product.id]}
                         alt={product.images[0].alt}
                         fill
                         className="object-cover rounded-md"
