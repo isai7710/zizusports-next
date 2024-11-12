@@ -27,12 +27,13 @@ export default function CheckoutPage() {
 
   return (
     <div className="container min-h-screen mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Checkout</h1>
       <div className="grid gap-8 md:grid-cols-2">
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
+              <CardTitle className="text-lg md:text-2xl">
+                Order Summary
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {items.map((item) => (
@@ -57,13 +58,13 @@ export default function CheckoutPage() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Payment</CardTitle>
+              <CardTitle className="text-lg md:text-2xl">Payment</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="bg-muted p-4 rounded-md">
                 {/* Stripe Elements will be inserted here */}
                 <p className="text-center text-muted-foreground">
-                  Stripe payment form will be integrated here
+                  Stripe payment form will be integrated here...
                 </p>
               </div>
               <Button
