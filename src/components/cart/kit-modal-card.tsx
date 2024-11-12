@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { X, Minus, Plus } from "lucide-react";
 import { KitCartItem, useCart } from "./cart-context";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -12,65 +12,49 @@ interface KitModalCardProps {
   item: KitCartItem;
 }
 
-export default function KitModalCard({ item }: KitModalCardProps) {
+export default function Component({ item }: KitModalCardProps) {
   const { removeItem, updateQuantity } = useCart();
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-lg font-semibold">{item.name}</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              {item.team} - {item.globalColor}
-            </p>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-muted-foreground hover:text-foreground"
-            onClick={() => removeItem(item.id)}
-            aria-label="Remove item"
-          >
-            <X className="w-5 h-5" />
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-2">
+      <CardContent className="p-4">
         <div className="flex items-start space-x-4">
           <div className="relative w-24 h-24 flex-shrink-0">
             <Image
               src={`https://res.cloudinary.com/de463zyga/image/upload/uniform${item.globalColor}.png`}
               alt={item.name}
               fill
-              className="object-contain shadow-md rounded-md"
+              className="object-contain rounded-md"
             />
           </div>
           <div className="flex-grow space-y-3">
-            <div className="grid grid-cols-3 gap-2 text-sm">
-              <div className="flex justify-start gap-2">
-                <span className="font-medium">Jersey:</span>
-                <Badge variant="outline">{item.jersey.size}</Badge>
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {item.team} - {item.globalColor}
+                </p>
               </div>
-              <div className="flex justify-start gap-2 ml-1">
-                <span className="font-medium">Short:</span>
-                <Badge variant="outline">{item.shorts.size}</Badge>
-              </div>
-              <div className="flex justify-start gap-2 ml-1">
-                <span className="font-medium">Sock:</span>
-                <Badge variant="outline">{item.socks.size}</Badge>
-              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-foreground"
+                onClick={() => removeItem(item.id)}
+                aria-label="Remove item"
+              >
+                <X className="w-5 h-5" />
+              </Button>
             </div>
-            {item.player && (
-              <div className="text-sm">
-                <span className="font-medium">Player</span>
-                <Badge variant="secondary" className="ml-2 text-sm">
-                  {item.player}
-                </Badge>
-              </div>
-            )}
+            <div className="flex flex-wrap gap-2 text-sm">
+              <Badge variant="outline">Jersey: {item.jersey.size}</Badge>
+              <Badge variant="outline">Short: {item.shorts.size}</Badge>
+              <Badge variant="outline">Sock: {item.socks.size}</Badge>
+              {item.player && (
+                <Badge variant="secondary">Player: {item.player}</Badge>
+              )}
+            </div>
             <Separator />
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Button
                   variant="outline"
@@ -92,7 +76,7 @@ export default function KitModalCard({ item }: KitModalCardProps) {
                 </Button>
               </div>
               <span className="font-semibold text-lg">
-                ${item.price.toFixed(2)}
+                ${(item.price * item.quantity).toFixed(2)}
               </span>
             </div>
           </div>
