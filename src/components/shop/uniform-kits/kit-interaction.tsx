@@ -206,12 +206,12 @@ export function KitInteractiveSection(props: KitInfo) {
                       </SelectItem>
                     ))}
                   </SelectContent>
+                  {errors.player && (
+                    <p className="absolute text-red-500 text-sm">
+                      Please select a player.
+                    </p>
+                  )}
                 </Select>
-                {errors.player && (
-                  <p className="text-red-500 text-sm">
-                    Please select a player.
-                  </p>
-                )}
               </div>
             </div>
 
@@ -221,7 +221,7 @@ export function KitInteractiveSection(props: KitInfo) {
                   key={product.id}
                   className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-sm border border-gray-200"
                 >
-                  <div className="relative w-16 h-16 flex-shrink-0">
+                  <div className="relative w-16 md:w-20 aspect-square flex-shrink-0">
                     {currentProductImages[product.id] && (
                       <Image
                         src={currentProductImages[product.id]}
@@ -235,39 +235,41 @@ export function KitInteractiveSection(props: KitInfo) {
                     <h3 className="text-sm font-medium text-gray-900">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-gray-500">${product.price}</p>
+                    <p className="text-xs text-gray-500">${product.price}</p>
                   </div>
-                  <Select
-                    onValueChange={(value) =>
-                      handleSizeChange(product.id, value)
-                    }
-                    value={selectedProducts[product.id] || ""}
-                  >
-                    <SelectTrigger
-                      className={cn(
-                        "w-[100px]",
-                        errors.products[product.id]
-                          ? "border-red-500 ring-red-500"
-                          : "",
-                      )}
+                  <div>
+                    <Select
+                      onValueChange={(value) =>
+                        handleSizeChange(product.id, value)
+                      }
+                      value={selectedProducts[product.id] || ""}
                     >
-                      <SelectValue placeholder="Size" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {product.attributes
-                        .find((attr) => attr.name.toLowerCase() === "size")
-                        ?.options.map((size) => (
-                          <SelectItem key={size} value={size}>
-                            {size}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                  {errors.products[product.id] && (
-                    <p className="text-red-500 text-sm">
-                      Please select a size for {product.name}.
-                    </p>
-                  )}
+                      <SelectTrigger
+                        className={cn(
+                          "w-[100px]",
+                          errors.products[product.id]
+                            ? "border-red-500 ring-red-500"
+                            : "",
+                        )}
+                      >
+                        <SelectValue placeholder="Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {product.attributes
+                          .find((attr) => attr.name.toLowerCase() === "size")
+                          ?.options.map((size) => (
+                            <SelectItem key={size} value={size}>
+                              {size}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.products[product.id] && (
+                      <p className="absolute text-red-500 text-sm -translate-x-6">
+                        Please select a size.
+                      </p>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
