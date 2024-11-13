@@ -54,7 +54,7 @@ export default function Component() {
               <TabsContent value="admin" className="mt-4 text-center">
                 <Link
                   href="/"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-primary rounded-md shadow-md"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Admin Login
                 </Link>
@@ -62,7 +62,7 @@ export default function Component() {
               <TabsContent value="manager" className="mt-4 text-center">
                 <Link
                   href="/"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-primary rounded-md shadow-md"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Manager Login
                 </Link>
@@ -70,7 +70,7 @@ export default function Component() {
               <TabsContent value="player" className="mt-4 text-center">
                 <Link
                   href="/shop/uniform-kits"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-primary rounded-md shadow-md"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Find your team kit here
                   <ArrowRight className="w-4 h-4 ml-2" />
