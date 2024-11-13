@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SIZU: Comprehensive Platform for Sports Club Management and Uniform Ordering
 
-## Getting Started
+Welcome to SIZU, a cutting-edge platform with the purpose of streamlining sports club management and ordering processes for local soccer clubs. The software is designed to serve club administrators, team managers, players, and fans. It simplifies uniform ordering, team management, and back-end operations, offering a seamless experience for all members involved in sports club activities.
 
-First, run the development server:
+From intuitive interfaces to robust back-end systems, SIZU aims to transform the way clubs handle team and order management, making it a game-changer in the sports industry.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Dynamic Landing Page**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   - Engages users with an intuitive design.
+   - Clear navigation for club administrators, managers, and players, allowing for quick access to relevant areas.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Player Uniform Ordering System**
 
-## Learn More
+   - **Intuitive and Customized Design**: A clean, user-friendly uniform-kit ordering interface dynamically renders based on team code validation and provides fields custom to the team and player.
+   - **Mobile Responsiveness**: Accessible on all devices.
+   - **Visual Customization**: Real-time previews for customization.
+   - **Sizing and Selection**: Interactive sizing chart, size recommendations, and double confirmation.
 
-To learn more about Next.js, take a look at the following resources:
+3. **Online Store: Fan Gear and Late Orders**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - Team-branded apparel, accessories, and novelty items.
+   - Modern filtering system with saved preferences for repeat customers.
+   - Extended Ordering Window: Additional time for late or new team members.
+   - Rush Processing Options: Expedited options for urgent orders.
+   - Status Tracking: Dedicated tracking for late orders.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Admin Backend**
 
-## Deploy on Vercel
+   - **Order Compilation and Data Export**: Aggregates and customizes data for efficient processing.
+   - **Scheduled Exports**: Automates data transfer to factories for timely production.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Developer Backend**
+   - **Database and API Integration**: Scalable, efficient database management with Supabase.
+   - **Security and Processing**: Proper RLS and database security practices in place along with Clerk for user auth management.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Current Tech Stack
+
+- **Front End**:
+
+  - **Framework**: Next.js 14 App Router, hosted on Vercel.
+  - **Languages and Tools**: TypeScript and Tailwind CSS with basic shadcn ui components.
+
+- **Back End**:
+
+  - **Product Data**: Stored in WordPress/WooCommerce, functioning as a headless CMS.
+  - **Data Fetching**: WooCommerce API for secure product data retrieval.
+  - **Database**: Supabase for team, player, and club information. Team codes stored in the teams table.
+  - **Server-side Actions**: Next.js server actions and route handlers for team code validation and secure data fetching.
+
+- **State Management**:
+  - **User Data**: React’s Context API to manage global state for customized product information in the cart.
+
+## Integrations soon to come...
+
+- **User Authentication**: Clerk will handle admin and coach authentication.
+- **Payment Processing**: Stripe integration for secure payment handling.
