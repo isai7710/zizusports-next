@@ -37,13 +37,15 @@ export default function Component() {
       <div className="container max-w-5xl md:max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center gap-8 pb-8 md:pb-0">
           <div className="w-full md:w-1/2 flex flex-col justify-center items-center gap-1 md:gap-4 text-black">
-            <h2 className="text-3xl sm:text-5xl font-bold text-center">
+            <h2 className="text-3xl sm:text-5xl font-bold">
               Powered By Community.
             </h2>
-            <p className="text-center text-md sm:text-lg text-pretty px-4">
-              SIZU is an all-in-one platform for team management, uniform
-              ordering, and streamlined club operations. Gear up for your story
-              below.
+            <p className="text-center text-md sm:text-lg text-balance px-4">
+              SIZU is an all-in-one platform for{" "}
+              <span className="font-semibold">team management</span>,{" "}
+              <span className="font-semibold">uniform ordering</span>, and
+              streamlined <span className="font-semibold">club operations</span>
+              . Gear up for your story below.
             </p>
             <Tabs defaultValue="player" className="w-full max-w-md mt-4">
               <TabsList className="grid w-full grid-cols-3 bg-gray-500/10">
