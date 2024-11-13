@@ -3,6 +3,7 @@ import { getTeamInfoById } from "@/lib/supabase";
 import { KitInteractiveSection } from "@/components/shop/uniform-kits/kit-interaction";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
 import { KitInfo } from "@/lib/types/kit";
+import KitSizeChart from "@/components/shop/uniform-kits/kit-size-chart";
 
 export default async function KitPage({
   params,
@@ -37,12 +38,10 @@ export default async function KitPage({
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-white-50 to-gray-300 p-2 md:p-8">
-      <KitInteractiveSection {...kitInfo} />
-
-      <div className="mt-4 md:mt-8 flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">Description</h2>
-        <p>{kit.short_description.replace(/<\/?p>/g, "")}</p>
-      </div>
+      <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden p-4">
+        <KitInteractiveSection {...kitInfo} />
+        <KitSizeChart products={kitProducts} />
+      </section>
     </main>
   );
 }
