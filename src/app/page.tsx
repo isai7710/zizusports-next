@@ -49,21 +49,12 @@ export default function Component() {
             </p>
             <Tabs defaultValue="player" className="w-full max-w-md mt-4">
               <TabsList className="grid w-full grid-cols-3 bg-gray-500/10">
-                <TabsTrigger value="admin">Admin</TabsTrigger>
                 <TabsTrigger value="manager">Manager</TabsTrigger>
                 <TabsTrigger value="player">Player</TabsTrigger>
               </TabsList>
-              <TabsContent value="admin" className="mt-4 text-center">
-                <Link
-                  href="/"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
-                >
-                  Admin Login
-                </Link>
-              </TabsContent>
               <TabsContent value="manager" className="mt-4 text-center">
                 <Link
-                  href="/"
+                  href="/dashboard"
                   className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Manager Login
