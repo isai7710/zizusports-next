@@ -9,12 +9,25 @@ import { cn } from "@/lib/utils";
 
 export default function UniformKits() {
   const [teamCode, setTeamCode] = useState("");
-  const [isInvalidCode, setIsInvalidCode] = useState(false);
+  const [errorState, setErrorState] = useState<
+    "invalid format" | "invalid code" | "network error" | false
+  >(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  // Regex pattern to check valid team code format (alphanumeric, max 10 chars)
+  const isValidTeamCodeFormat = (code: string) =>
+    /^[A-Za-z0-9]{1,10}$/.test(code);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate team code format before making API call
+    if (!isValidTeamCodeFormat(teamCode)) {
+      setErrorState("invalid format");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -28,23 +41,33 @@ export default function UniformKits() {
 
       if (result.success) {
         // Team code is valid; you can redirect or show customization options here
-        setIsInvalidCode(false);
+        setErrorState(false);
         router.push(`/shop/uniform-kits/team/${result.team.id}`);
       } else {
         // Handle invalid code (e.g., show an error message)
-        setIsInvalidCode(true);
+        setErrorState("invalid code");
         console.log(result.message);
       }
     } catch (error) {
       console.error("An error occurred:", error);
-      setIsInvalidCode(true);
+      setErrorState("network error");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Map error state to error messages
+  const errorMessages = {
+    "invalid format":
+      "Invalid format: please use letters and numbers only, max 10 characters.",
+    "invalid code":
+      "Invalid code: please try again or contact your team administrator.",
+    "network error":
+      "Network error: please check your connection and try again.",
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-grey-300 flex flex-col items-center justify-start p-4">
+    <div className="min-h-screen flex flex-col items-center justify-start p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-8">
         <div className="text-center">
           <ShieldCheck className="mx-auto h-12 w-12 text-primary" />
@@ -72,21 +95,20 @@ export default function UniformKits() {
                 value={teamCode}
                 onChange={(e) => {
                   setTeamCode(e.target.value);
-                  setIsInvalidCode(false); // Reset error state on change
+                  setErrorState(false); // Reset error state on change
                 }}
                 className={cn(
                   "block w-full rounded-md shadow-sm  focus:ring-primary",
-                  isInvalidCode
+                  errorState
                     ? "border-red-500 focus:border-red-500"
                     : "border-gray-300",
                 )}
                 placeholder="Enter your team code..."
               />
             </div>
-            {isInvalidCode && (
+            {errorState && (
               <p className="mt-2 text-sm text-red-600">
-                Invalid code, please try again or contact your team
-                administrator.
+                {errorMessages[errorState]}
               </p>
             )}
           </div>
