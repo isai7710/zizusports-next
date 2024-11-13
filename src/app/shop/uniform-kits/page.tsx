@@ -44,7 +44,7 @@ export default function UniformKits() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-start p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-grey-300 flex flex-col items-center justify-start p-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-8">
         <div className="text-center">
           <ShieldCheck className="mx-auto h-12 w-12 text-primary" />
