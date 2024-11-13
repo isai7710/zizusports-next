@@ -28,7 +28,7 @@ export async function getTeamInfoById(teamId: string) {
   } catch (error) {
     console.error("Unexpected error:", error);
     return {
-      success: true,
+      success: false,
       team: null,
       players: null,
     };
