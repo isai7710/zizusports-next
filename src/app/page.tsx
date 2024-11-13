@@ -1,5 +1,6 @@
 import Carousel from "@/components/carousel";
 import Link from "next/link";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRight, ShoppingBag, Truck, Users } from "lucide-react";
 
 export default function Component() {
@@ -33,32 +34,57 @@ export default function Component() {
 
   return (
     <main className="min-h-screen w-full">
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="container max-w-5xl md:max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center gap-8 pb-8 md:pb-0">
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center gap-1 md:gap-4 text-primary">
-              <h2 className="text-3xl sm:text-5xl font-bold text-center">
-                Powered By Community.
-              </h2>
-              <p className="italic text-center text-md sm:text-lg text-balance">
-                Sportswear with a heartbeat. Your passion, our gear.
-              </p>
-              <Link
-                href="/shop/uniform-kits"
-                className="font-bold px-6 py-2 rounded-md bg-primary text-white transition duration-200 hover:bg-primary/90 hover:scale-105 mt-4 flex items-center gap-2"
-              >
-                Find your team kit here
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-            <div className="order-first md:order-1 w-full md:w-1/2 h-[300px] md:h-[400px] px-8 pt-4 md:px-0 md:pt-0 relative overflow-hidden">
-              <Carousel imgs={images} className="rounded-md" />
-            </div>
+      <div className="container max-w-5xl md:max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-8 pb-8 md:pb-0">
+          <div className="w-full md:w-1/2 flex flex-col justify-center items-center gap-1 md:gap-4 text-black">
+            <h2 className="text-3xl sm:text-5xl font-bold text-center">
+              Powered By Community.
+            </h2>
+            <p className="text-center text-md sm:text-lg text-pretty px-4">
+              SIZU is an all-in-one platform for team management, uniform
+              ordering, and streamlined club operations. Gear up for your story
+              below.
+            </p>
+            <Tabs defaultValue="player" className="w-full max-w-md mt-4">
+              <TabsList className="grid w-full grid-cols-3 bg-gray-500/10">
+                <TabsTrigger value="admin">Admin</TabsTrigger>
+                <TabsTrigger value="manager">Manager</TabsTrigger>
+                <TabsTrigger value="player">Player</TabsTrigger>
+              </TabsList>
+              <TabsContent value="admin" className="mt-4 text-center">
+                <Link
+                  href="/"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-primary rounded-md shadow-md"
+                >
+                  Admin Login
+                </Link>
+              </TabsContent>
+              <TabsContent value="manager" className="mt-4 text-center">
+                <Link
+                  href="/"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-primary rounded-md shadow-md"
+                >
+                  Manager Login
+                </Link>
+              </TabsContent>
+              <TabsContent value="player" className="mt-4 text-center">
+                <Link
+                  href="/shop/uniform-kits"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-primary rounded-md shadow-md"
+                >
+                  Find your team kit here
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </TabsContent>
+            </Tabs>
+          </div>
+          <div className="order-first md:order-1 w-full md:w-1/2 h-[400px] px-8 pt-4 md:px-0 md:pr-4 md:pt-0 relative overflow-hidden">
+            <Carousel imgs={images} />
           </div>
         </div>
       </div>
 
-      <section className="px-8 py-16 bg-white">
+      <section className="px-8 py-16 bg-transparent">
         <div className="container max-w-5xl md:max-w-7xl mx-auto">
           <h3 className="text-3xl font-bold text-center mb-12">
             Why Choose Us?
