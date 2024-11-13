@@ -48,16 +48,17 @@ export default function Component() {
               . Gear up for your story below.
             </p>
             <Tabs defaultValue="player" className="w-full max-w-md mt-4">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-500/10">
-                <TabsTrigger value="manager">Manager</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3 bg-gray-500/10">
+                <TabsTrigger value="admin">Admin</TabsTrigger>
                 <TabsTrigger value="player">Player</TabsTrigger>
+                <TabsTrigger value="fan">Fan</TabsTrigger>
               </TabsList>
-              <TabsContent value="manager" className="mt-4 text-center">
+              <TabsContent value="admin" className="mt-4 text-center">
                 <Link
                   href="/dashboard"
                   className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
-                  Manager Login
+                  Admin Login
                 </Link>
               </TabsContent>
               <TabsContent value="player" className="mt-4 text-center">
@@ -66,6 +67,15 @@ export default function Component() {
                   className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Find your team kit here
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </TabsContent>
+              <TabsContent value="fan" className="mt-4 text-center">
+                <Link
+                  href="/shop/products"
+                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
+                >
+                  Shop your clubs gear today
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </TabsContent>
