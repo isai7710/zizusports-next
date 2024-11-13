@@ -48,7 +48,7 @@ export default function Component() {
               . Gear up for your story below.
             </p>
             <Tabs defaultValue="player" className="w-full max-w-md mt-4">
-              <TabsList className="grid w-full grid-cols-3 bg-gray-500/10">
+              <TabsList className="grid w-full grid-cols-2 bg-gray-500/10">
                 <TabsTrigger value="manager">Manager</TabsTrigger>
                 <TabsTrigger value="player">Player</TabsTrigger>
               </TabsList>
