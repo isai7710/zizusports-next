@@ -1,67 +1,80 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ReactNode, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "react-feather";
 
-export default function Carousel({
-  className,
-  imgs,
-  children,
-}: {
-  className?: string;
-  imgs: string[];
-  children?: ReactNode;
-}) {
-  const [imgState, setImgState] = useState(0);
+export default function Carousel({ imgs = [] }: { imgs: string[] }) {
+  const [leftColumn, setLeftColumn] = useState<string[]>([]);
+  const [rightColumn, setRightColumn] = useState<string[]>([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setImgState((prevState) => (prevState + 1) % imgs.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [imgState, imgs.length]);
-
-  const cycleNext = () => {
-    setImgState((prev) => (prev + 1) % imgs.length);
-  };
-  const cyclePrev = () => {
-    setImgState((prev) => (prev - 1 + imgs.length) % imgs.length);
-  };
+    const left: string[] = [];
+    const right: string[] = [];
+    imgs.forEach((img, index) => {
+      if (index % 2 === 0) {
+        left.push(img);
+      } else {
+        right.push(img);
+      }
+    });
+    setLeftColumn(left);
+    setRightColumn(right);
+  }, [imgs]);
 
   return (
-    <div className="relative w-full h-full">
-      {imgs.map((img, index) => (
-        <div
-          key={index}
-          className={cn(
-            "absolute inset-0 transition-opacity duration-500 ease-in-out",
-            index === imgState ? "opacity-100" : "opacity-0",
-          )}
-        >
-          <Image
-            src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.jpg`}
-            alt={`carousel image ${index}`}
-            fill
-            className={cn("object-cover", className)}
-          />
+    <div className="w-full h-full flex overflow-hidden gap-4">
+      <div className="w-1/2 h-full overflow-hidden">
+        <div className="animate-scroll-up">
+          {leftColumn.map((img, index) => (
+            <div key={`left-${index}`} className="w-full h-full mb-4">
+              <Image
+                src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.jpg`}
+                alt={`Image ${img}`}
+                width={400}
+                height={300}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
+          {leftColumn.map((img, index) => (
+            <div key={`left-repeat-${index}`} className="w-full h-full mb-4">
+              <Image
+                src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.jpg`}
+                alt={`Image ${img}`}
+                width={400}
+                height={300}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
         </div>
-      ))}
-      <button
-        onClick={cyclePrev}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2"
-      >
-        <ChevronLeft className="w-8 h-8 text-white/50" />
-      </button>
-      {children}
-      <button
-        onClick={cycleNext}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2"
-      >
-        <ChevronRight className="w-8 h-8 text-white/50" />
-      </button>
+      </div>
+      <div className="w-1/2 h-full overflow-hidden">
+        <div className="animate-scroll-down animation-delay-1000">
+          {rightColumn.map((img, index) => (
+            <div key={`right-${index}`} className="w-full h-full mb-4">
+              <Image
+                src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.jpg`}
+                alt={`Image ${img}`}
+                width={400}
+                height={300}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
+          {rightColumn.map((img, index) => (
+            <div key={`right-repeat-${index}`} className="w-full h-full mb-4">
+              <Image
+                src={`https://res.cloudinary.com/de463zyga/image/upload/${img}.jpg`}
+                alt={`Image ${img}`}
+                width={400}
+                height={300}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
