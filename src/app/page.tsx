@@ -35,7 +35,7 @@ export default function Component() {
   return (
     <main className="min-h-screen w-full">
       <div className="container max-w-5xl md:max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center gap-8 pb-8 md:pb-0">
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-0 pb-8 md:pb-0">
           <div className="w-full md:w-1/2 flex flex-col justify-center items-center gap-1 md:gap-4 text-black">
             <h2 className="text-3xl sm:text-5xl font-bold text-center">
               Powered By Community.
@@ -45,7 +45,8 @@ export default function Component() {
               <span className="font-semibold">team management</span>,{" "}
               <span className="font-semibold">uniform ordering</span>, and
               streamlined <span className="font-semibold">club operations</span>
-              . Gear up for your story below.
+              .<br />
+              Gear up for your story below.
             </p>
             <Tabs defaultValue="player" className="w-full max-w-md mt-4">
               <TabsList className="grid w-full grid-cols-3 bg-gray-500/10">
@@ -56,15 +57,16 @@ export default function Component() {
               <TabsContent value="admin" className="mt-4 text-center">
                 <Link
                   href="/dashboard"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
+                  className="inline-flex w-full items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Admin Login
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </TabsContent>
               <TabsContent value="player" className="mt-4 text-center">
                 <Link
                   href="/shop/uniform-kits"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
+                  className="inline-flex w-full items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
                   Find your team kit here
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -73,9 +75,9 @@ export default function Component() {
               <TabsContent value="fan" className="mt-4 text-center">
                 <Link
                   href="/shop/products"
-                  className="inline-flex w-80 items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
+                  className="inline-flex w-full items-center justify-center py-1.5 text-white bg-black rounded-md shadow-md"
                 >
-                  Shop your clubs gear today
+                  Shop your club&apos;s gear
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </TabsContent>
