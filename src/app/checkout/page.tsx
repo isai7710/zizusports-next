@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import ProductModalCard from "@/components/cart/product-modal-card";
 import KitModalCard from "@/components/cart/kit-modal-card";
 import { cn } from "@/lib/utils";
-import CheckoutPage from "@/components/checkout/checkout-page";
+import CheckoutForm from "@/components/checkout/checkout-page";
 import convertToSubcurrency from "@/lib/stripe/convertToSubcurrency";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -75,7 +75,7 @@ export default function Page() {
                       currency: "usd",
                     }}
                   >
-                    <CheckoutPage amount={getTotalPrice()} />
+                    <CheckoutForm amount={getTotalPrice()} />
                   </Elements>
                 ) : (
                   <p className="text-center">No items in cart</p>
