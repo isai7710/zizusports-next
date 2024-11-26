@@ -5,21 +5,27 @@ import { Suspense } from "react";
 
 export default function Shop() {
   return (
-    <>
-      <section className="relative w-full h-48 md:h-80 bg-black">
+    <div className="min-h-screen bg-gray-100">
+      <section className="relative w-full h-64 md:h-80 overflow-hidden">
         <Image
           src="https://res.cloudinary.com/de463zyga/image/upload/upslatrslindoor.jpg"
           alt="header image"
           fill
-          className="object-cover object-[0px_57%]"
+          className="object-cover object-center"
         />
-        <h1 className="absolute text-nowrap z-10 text-palette-3 text-2xl md:text-5xl font-bold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pt-32 md:pt-44">
-          Gear Up For Your Story.
-        </h1>
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+            For the Love of the Game
+          </h1>
+          <p className="text-xl md:text-2xl font-medium">
+            Designed for the Field. Worn with Pride.
+          </p>
+        </div>
       </section>
+
       <Suspense fallback={<ProductGridSkeleton />}>
         <ProductGrid />
       </Suspense>
-    </>
+    </div>
   );
 }
