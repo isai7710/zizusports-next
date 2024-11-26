@@ -84,7 +84,6 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
   return (
     <form onSubmit={handleSubmit}>
       {clientSecret && <PaymentElement />}
-      {errorMessage && <div>{errorMessage}</div>}
       <Button
         className="w-full py-5 mt-4 text-white"
         type="submit"
@@ -92,6 +91,11 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       >
         {loading ? "Processing..." : `Pay $${amount.toFixed(2)}`}
       </Button>
+      {errorMessage && (
+        <p className="text-red-600 text-center text-md mt-2">
+          Error: {errorMessage}
+        </p>
+      )}
     </form>
   );
 };
