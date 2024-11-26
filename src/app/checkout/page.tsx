@@ -75,7 +75,7 @@ export default function Page() {
                       currency: "usd",
                     }}
                   >
-                    <CheckoutForm amount={getTotalPrice()} />
+                    <CheckoutForm amount={getTotalPrice()} items={items} />
                   </Elements>
                 ) : (
                   <p className="text-center">No items in cart</p>
