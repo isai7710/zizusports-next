@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import ProductModalCard from "@/components/cart/product-modal-card";
 import KitModalCard from "@/components/cart/kit-modal-card";
 import { cn } from "@/lib/utils";
-import CheckoutForm from "@/components/checkout/checkout-page";
+import CheckoutForm from "@/components/checkout/checkout-form";
 import convertToSubcurrency from "@/lib/stripe/convertToSubcurrency";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
