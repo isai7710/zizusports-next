@@ -8,14 +8,68 @@ import {
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/stripe/convertToSubcurrency";
 import { Button } from "@/components/ui/button";
+import { KitCartItem, ProductCartItem } from "../cart/cart-context";
 
-const CheckoutForm = ({ amount }: { amount: number }) => {
+interface CheckoutFormProps {
+  amount: number;
+  items: (ProductCartItem | KitCartItem)[];
+}
+
+const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Prepare cart items for metadata
+  const prepareMetadata = (items: (ProductCartItem | KitCartItem)[]) => {
+    return items
+      .map((item, index) => {
+        // Handle ProductCartItem
+        if ("product" in item) {
+          return {
+            [`item_${index}_type`]: "product",
+            [`item_${index}_name`]: item.product.name,
+            [`item_${index}_quantity`]: item.quantity.toString(),
+            [`item_${index}_size`]: item.selectedAttributes.size || "N/A",
+            [`item_${index}_color`]: item.selectedAttributes.color || "N/A",
+          };
+          // Handle KitCartItem
+        } else {
+          return {
+            [`item_${index}_type`]: "kit",
+            [`item_${index}_name`]: item.name,
+            [`item_${index}_quantity`]: item.quantity.toString(),
+            [`item_${index}_jersey_size`]: item.jersey.size,
+            [`item_${index}_shorts_size`]: item.shorts.size,
+            [`item_${index}_socks_size`]: item.socks.size,
+            [`item_${index}_color`]: item.globalColor,
+            [`item_${index}_player`]: item.player,
+            [`item_${index}_team`]: item.team,
+          };
+        }
+      })
+      .reduce((acc, curr) => ({ ...acc, ...curr }), {});
+  };
+
+  const formatOrderDescription = (items: (ProductCartItem | KitCartItem)[]) => {
+    const itemDescriptions = items.map((item) => {
+      if ("product" in item) {
+        return `${item.quantity}x ${item.product.name}`;
+      } else {
+        return `${item.quantity}x ${item.name} Kit`;
+      }
+    });
+
+    // Join items with commas and "and" for the last item
+    if (itemDescriptions.length === 0) return "";
+    if (itemDescriptions.length === 1) return itemDescriptions[0];
+
+    const lastItem = itemDescriptions.pop();
+    return `${itemDescriptions.join(", ")} and ${lastItem}`;
+  };
 
   // generate client every time amount changes by sending POST request to the API route handler
   useEffect(() => {
@@ -24,11 +78,15 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+      body: JSON.stringify({
+        amount: convertToSubcurrency(amount),
+        metadata: prepareMetadata(items),
+        description: formatOrderDescription(items),
+      }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
-  }, [amount]);
+  }, [amount, items]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,7 +108,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: `http://www.localhost:3000/checkout/payment-success?amount=${amount}`,
       },
     });
 
@@ -83,7 +141,21 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {clientSecret && <PaymentElement />}
+      {clientSecret && (
+        <PaymentElement
+          options={{
+            layout: {
+              type: "accordion",
+              defaultCollapsed: true,
+              radios: true,
+              spacedAccordionItems: false,
+            },
+            business: {
+              name: "Sizu",
+            },
+          }}
+        />
+      )}
       <Button
         className="w-full py-5 mt-4 text-white"
         type="submit"
