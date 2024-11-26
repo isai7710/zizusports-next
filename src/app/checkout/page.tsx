@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useCart } from "@/components/cart/cart-context";
 import {
   Card,
@@ -9,22 +8,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import ProductModalCard from "@/components/cart/product-modal-card";
 import KitModalCard from "@/components/cart/kit-modal-card";
 import { cn } from "@/lib/utils";
+import CheckoutPage from "@/components/checkout/checkout-page";
+import convertToSubcurrency from "@/lib/stripe/convertToSubcurrency";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
-export default function CheckoutPage() {
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined!");
+}
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
+export default function Page() {
   const { items, getTotalPrice } = useCart();
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsProcessing(true);
-    // Stripe payment processing logic will go here
-    setIsProcessing(false);
-  };
 
   return (
     <div className="container min-h-screen mx-auto px-4 py-8">
@@ -66,19 +66,21 @@ export default function CheckoutPage() {
             </CardHeader>
             <CardContent>
               <div className="bg-muted p-4 rounded-md">
-                {/* Stripe Elements will be inserted here */}
-                <p className="text-center text-muted-foreground">
-                  Stripe payment form will be integrated here...
-                </p>
+                {getTotalPrice() > 0 ? (
+                  <Elements
+                    stripe={stripePromise}
+                    options={{
+                      mode: "payment",
+                      amount: convertToSubcurrency(getTotalPrice()),
+                      currency: "usd",
+                    }}
+                  >
+                    <CheckoutPage amount={getTotalPrice()} />
+                  </Elements>
+                ) : (
+                  <p className="text-center">No items in cart</p>
+                )}
               </div>
-              <Button
-                className="w-full mt-4 text-white"
-                type="submit"
-                disabled={isProcessing}
-                onClick={handleSubmit}
-              >
-                {isProcessing ? "Processing..." : "Pay Now"}
-              </Button>
             </CardContent>
           </Card>
         </div>
