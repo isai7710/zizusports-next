@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useStripe,
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import convertToSubcurrency from "@/lib/stripe/convertToSubcurrency";
+import {
+  convertToSubcurrency,
+  prepareMetadata,
+  formatOrderDescription,
+} from "@/lib/stripe/utils";
 import { Button } from "@/components/ui/button";
 import { KitCartItem, ProductCartItem } from "../cart/cart-context";
 
@@ -23,55 +27,7 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Prepare cart items for metadata
-  const prepareMetadata = (items: (ProductCartItem | KitCartItem)[]) => {
-    return items
-      .map((item, index) => {
-        // Handle ProductCartItem
-        if ("product" in item) {
-          return {
-            [`item_${index}_type`]: "product",
-            [`item_${index}_name`]: item.product.name,
-            [`item_${index}_quantity`]: item.quantity.toString(),
-            [`item_${index}_size`]: item.selectedAttributes.size || "N/A",
-            [`item_${index}_color`]: item.selectedAttributes.color || "N/A",
-          };
-          // Handle KitCartItem
-        } else {
-          return {
-            [`item_${index}_type`]: "kit",
-            [`item_${index}_name`]: item.name,
-            [`item_${index}_quantity`]: item.quantity.toString(),
-            [`item_${index}_jersey_size`]: item.jersey.size,
-            [`item_${index}_shorts_size`]: item.shorts.size,
-            [`item_${index}_socks_size`]: item.socks.size,
-            [`item_${index}_color`]: item.globalColor,
-            [`item_${index}_player`]: item.player,
-            [`item_${index}_team`]: item.team,
-          };
-        }
-      })
-      .reduce((acc, curr) => ({ ...acc, ...curr }), {});
-  };
-
-  const formatOrderDescription = (items: (ProductCartItem | KitCartItem)[]) => {
-    const itemDescriptions = items.map((item) => {
-      if ("product" in item) {
-        return `${item.quantity}x ${item.product.name}`;
-      } else {
-        return `${item.quantity}x ${item.name} Kit`;
-      }
-    });
-
-    // Join items with commas and "and" for the last item
-    if (itemDescriptions.length === 0) return "";
-    if (itemDescriptions.length === 1) return itemDescriptions[0];
-
-    const lastItem = itemDescriptions.pop();
-    return `${itemDescriptions.join(", ")} and ${lastItem}`;
-  };
-
-  // generate client every time amount changes by sending POST request to the API route handler
+  // Generate client secret
   useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
@@ -108,17 +64,17 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/checkout/payment-success?amount=${amount}`,
+        return_url: `${window.location.origin}/checkout?amount=${amount}`,
       },
     });
 
     if (error) {
-      // This point is only reached if there's an immediate error when confirming the payment
-      // Show the error to your customer (for example, payment details incomplete)
+      // This point is only reached if there's an immediate error when
+      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
       setErrorMessage(error.message);
     } else {
-      // The payment UI automatically closes with a success animation at which point
-      // your customer is redirected to your "return_url"
+      // The payment UI automatically closes with a success animation.
+      // Your customer is redirected to your `return_url`.
     }
 
     setLoading(false);
@@ -139,6 +95,7 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
     );
   }
 
+  // Show the payment form
   return (
     <form onSubmit={handleSubmit}>
       {clientSecret && (
