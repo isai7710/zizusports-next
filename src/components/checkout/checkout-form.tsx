@@ -64,7 +64,7 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `${window.location.origin}/checkout?amount=${amount}`,
+        return_url: `${window.location.origin}/checkout/success?amount=${amount}`,
       },
     });
 
