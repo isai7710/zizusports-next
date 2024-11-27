@@ -13,9 +13,12 @@ import ProductModalCard from "@/components/cart/product-modal-card";
 import KitModalCard from "@/components/cart/kit-modal-card";
 import { cn } from "@/lib/utils";
 import CheckoutForm from "@/components/checkout/checkout-form";
-import convertToSubcurrency from "@/lib/stripe/convertToSubcurrency";
+import { convertToSubcurrency } from "@/lib/stripe/utils";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import PaymentStatusUI from "@/components/checkout/payment-status";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined!");
@@ -25,6 +28,12 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function Page() {
   const { items, getTotalPrice } = useCart();
+  const [confirmed, setConfirmed] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    setConfirmed(searchParams.has("payment_intent_client_secret"));
+  }, [searchParams]);
 
   return (
     <div className="container min-h-screen mx-auto px-4 py-8">
@@ -75,7 +84,11 @@ export default function Page() {
                       currency: "usd",
                     }}
                   >
-                    <CheckoutForm amount={getTotalPrice()} items={items} />
+                    {confirmed ? (
+                      <PaymentStatusUI />
+                    ) : (
+                      <CheckoutForm amount={getTotalPrice()} items={items} />
+                    )}
                   </Elements>
                 ) : (
                   <p className="text-center">No items in cart</p>
