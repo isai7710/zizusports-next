@@ -5,6 +5,7 @@ import {
   useStripe,
   useElements,
   PaymentElement,
+  LinkAuthenticationElement,
 } from "@stripe/react-stripe-js";
 import {
   convertToSubcurrency,
@@ -19,7 +20,7 @@ interface CheckoutFormProps {
   items: (ProductCartItem | KitCartItem)[];
 }
 
-const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
+export default function CheckoutForm({ amount, items }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -27,7 +28,9 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Generate client secret
+  // on mount and every time cart amount or items change we want to...
+  // 1. send order information to server API endpoint to tell Stripe we want to create a payment intent
+  // 2. retreive that payment intent's client secret and use it
   useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
@@ -64,7 +67,7 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `${window.location.origin}/checkout/success?amount=${amount}`,
+        return_url: `${window.location.origin}/checkout/payment-status?amount=${amount}`,
       },
     });
 
@@ -72,9 +75,7 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
       // This point is only reached if there's an immediate error when
       // confirming the payment. Show the error to your customer (for example, payment details incomplete)
       setErrorMessage(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+      console.log(error);
     }
 
     setLoading(false);
@@ -99,19 +100,24 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       {clientSecret && (
-        <PaymentElement
-          options={{
-            layout: {
-              type: "accordion",
-              defaultCollapsed: true,
-              radios: true,
-              spacedAccordionItems: false,
-            },
-            business: {
-              name: "Sizu",
-            },
-          }}
-        />
+        <>
+          <div className="mb-2">
+            <LinkAuthenticationElement />
+          </div>
+          <PaymentElement
+            options={{
+              layout: {
+                type: "accordion",
+                defaultCollapsed: true,
+                radios: true,
+                spacedAccordionItems: false,
+              },
+              business: {
+                name: "Sizu",
+              },
+            }}
+          />
+        </>
       )}
       <Button
         className="w-full py-5 mt-4 text-white"
@@ -127,6 +133,4 @@ const CheckoutForm = ({ amount, items }: CheckoutFormProps) => {
       )}
     </form>
   );
-};
-
-export default CheckoutForm;
+}
