@@ -32,19 +32,42 @@ export default function CheckoutForm({ amount, items }: CheckoutFormProps) {
   // 1. send order information to server API endpoint to tell Stripe we want to create a payment intent
   // 2. retreive that payment intent's client secret and use it
   useEffect(() => {
-    fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: convertToSubcurrency(amount),
-        metadata: prepareMetadata(items),
-        description: formatOrderDescription(items),
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
+    const createPaymentIntent = async () => {
+      try {
+        const response = await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: convertToSubcurrency(amount),
+            metadata: prepareMetadata(items),
+            description: formatOrderDescription(items),
+          }),
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          setErrorMessage(
+            errorData.error || "Failed to create payment intent.",
+          );
+          return;
+        }
+
+        const data = await response.json();
+        if (data.clientSecret) {
+          setClientSecret(data.clientSecret);
+        } else {
+          setErrorMessage(
+            "Payment Intent creation failed. No client secret received.",
+          );
+        }
+      } catch (error) {
+        console.error("Error creating payment intent:", error);
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
+    };
+
+    createPaymentIntent();
   }, [amount, items]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,6 +75,8 @@ export default function CheckoutForm({ amount, items }: CheckoutFormProps) {
     setLoading(true);
 
     if (!stripe || !elements) {
+      setErrorMessage("Stripe has not loaded yet. Please try again.");
+      setLoading(false);
       return;
     }
 
