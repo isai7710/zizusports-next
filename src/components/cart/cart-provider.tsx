@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { ProductCartItem, KitCartItem, CartContext } from "./cart-context";
 import { WooCommerceProduct } from "@/lib/types/woocommerce";
-import { generateKitId } from "@/lib/cart-utils";
+import { generateKitId } from "@/lib/cart/utils";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<(ProductCartItem | KitCartItem)[]>([]);
