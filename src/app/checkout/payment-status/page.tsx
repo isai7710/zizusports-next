@@ -19,6 +19,9 @@ export default function StatusPage() {
   const [amount, setAmount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 2000;
 
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -38,7 +41,7 @@ export default function StatusPage() {
 
         // Make GET request with query parameter
         const response = await fetch(
-          `/api/retreive-payment-status?payment_intent=${paymentIntent}`,
+          `/api/retrieve-payment-intent-status?payment_intent=${paymentIntent}`,
           {
             method: "GET",
           },
@@ -49,6 +52,15 @@ export default function StatusPage() {
         }
 
         const data = await response.json();
+
+        // If payment is still processing and we haven't hit max retries
+        if (data.status === "processing" && retryCount < MAX_RETRIES) {
+          setTimeout(() => {
+            setRetryCount((prev) => prev + 1);
+          }, RETRY_DELAY);
+          return;
+        }
+
         setStatus(data.status);
         setAmount(data.amount);
       } catch (error) {
@@ -60,7 +72,7 @@ export default function StatusPage() {
     };
 
     checkPaymentStatus();
-  }, [searchParams]);
+  }, [searchParams, retryCount]);
 
   const renderContent = () => {
     if (isLoading) {
