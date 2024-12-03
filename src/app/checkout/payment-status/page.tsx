@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +13,7 @@ type PaymentStatus =
   | "requires_payment_method"
   | "failed";
 
-export default function StatusPage() {
+function PaymentStatusContent() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<PaymentStatus | null>(null);
   const [amount, setAmount] = useState<number | null>(null);
@@ -171,6 +171,28 @@ export default function StatusPage() {
           </Button>
         </div>
       </div>
+    </main>
+  );
+}
+
+// Loading component
+function LoadingFallback() {
+  return (
+    <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+      <div className="flex flex-col items-center space-y-4">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+        <p className="text-lg text-gray-600">Loading payment status...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function StatusPage() {
+  return (
+    <main className="min-h-screen flex items-center justify-center p-4">
+      <Suspense fallback={<LoadingFallback />}>
+        <PaymentStatusContent />
+      </Suspense>
     </main>
   );
 }
