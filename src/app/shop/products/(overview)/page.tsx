@@ -1,5 +1,3 @@
-"use client";
-
 import ProductGrid from "@/components/shop/product-grid";
 import ProductGridSkeleton from "@/components/shop/product-grid-skeleton";
 import Image from "next/image";
@@ -31,7 +29,7 @@ export default function Shop() {
       </div>
       <main className="max-w-4xl mx-auto">
         <Suspense fallback={<ProductGridSkeleton />}>
-          {/* include a prop to display appropriate club's products like `clubId={selectedClub.id}` */}
+          {/* TODO include a prop to display appropriate club's products like `clubId={selectedClub.id}` */}
           <ProductGrid />
         </Suspense>
       </main>
