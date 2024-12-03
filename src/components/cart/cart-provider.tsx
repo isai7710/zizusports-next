@@ -81,43 +81,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addKitItem = useCallback((kitData: Omit<KitCartItem, "id">) => {
-    try {
-      const kit: KitCartItem = {
-        ...kitData,
-        id: generateKitId(kitData),
-      };
+    const kit: KitCartItem = {
+      ...kitData,
+      id: generateKitId(kitData),
+    };
 
-      // Optional: Validate with Zod
-      // const validatedKit = KitCartItemSchema.parse(kit);
+    // Optional: Validate with Zod
+    // const validatedKit = KitCartItemSchema.parse(kit);
 
-      setItems((currentItems) => {
-        // Find if the kit already exists in the cart by checking kitItemId
-        const existingItemIndex = currentItems.findIndex(
-          (item) =>
-            "jersey" in item && // Type guard to check if it's a KitCartItem
-            item.id === kit.id,
+    setItems((currentItems) => {
+      // Find if the kit already exists in the cart by checking kitItemId
+      const existingItemIndex = currentItems.findIndex(
+        (item) =>
+          "jersey" in item && // Type guard to check if it's a KitCartItem
+          item.id === kit.id,
+      );
+
+      if (existingItemIndex > -1) {
+        return currentItems.map((item, index) =>
+          index === existingItemIndex
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
         );
+      }
 
-        if (existingItemIndex > -1) {
-          return currentItems.map((item, index) =>
-            index === existingItemIndex
-              ? { ...item, quantity: item.quantity + 1 }
-              : item,
-          );
-        }
-
-        // Otherwise, add a new kit to the cart
-        return [...currentItems, kit];
-      });
-    } catch (error) {
-      //--- ZOD ERROR HANDLING
-      //if (error instanceof z.ZodError) {
-      // Handle validation errors
-      //        console.error("Invalid kit data:", error.errors);
-      // You could show these errors to the user with a toast notification
-      //     }
-      console.error("Invalid kit data:", error);
-    }
+      // Otherwise, add a new kit to the cart
+      return [...currentItems, kit];
+    });
   }, []);
 
   const removeItem = (id: number) => {
