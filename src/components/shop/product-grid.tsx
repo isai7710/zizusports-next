@@ -14,7 +14,7 @@ export default async function ProductGrid({
   return (
     <section
       className={cn(
-        "w-full max-w-4xl mx-auto md:my-8 grid grid-cols-2 md:grid-cols-3 gap-4",
+        "w-full mx-auto md:my-8 grid grid-cols-2 md:grid-cols-3 gap-4",
         className,
       )}
     >
