@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useCart } from "./cart/cart-context";
-import { Menu, X, Search, ShoppingCart } from "react-feather";
+import { Menu, X, ShoppingCart } from "react-feather";
 import logo from "../../public/sizulogo.png";
 import DropdownMenu from "@/components/dropdown-menu";
 import { CartModal } from "@/components/cart/modal";
@@ -17,29 +17,28 @@ const links = [
   {
     name: "HOME",
     href: "/",
-    hasDropDown: false,
   },
   {
     name: "SHOP",
     href: "",
-    hasDropDown: true,
+    subItems: [
+      { name: "Uniform Kits", href: "/shop/uniform-kits" },
+      { name: "Club Gear", href: "/shop/products" },
+    ],
   },
   {
     name: "CONTACT US",
     href: "/contact",
-    hasDropDown: false,
   },
   {
     name: "ABOUT",
     href: "/about",
-    hasDropDown: false,
   },
 ];
 
 export default function NavBar() {
   const pathname = usePathname();
   const [showDropDown, setShowDropDown] = useState(false);
-  const [searchIsOpen, setSearchIsOpen] = useState(false);
   const { items, toggleModal } = useCart();
 
   return (
@@ -51,7 +50,7 @@ export default function NavBar() {
           </Link>
           <ul className="hidden md:flex flex-1 justify-center items-center space-x-2">
             {links.map((link) =>
-              link.hasDropDown ? (
+              link.subItems ? (
                 <li key={link.name}>
                   <HoverCard openDelay={10}>
                     <HoverCardTrigger className="group ">
@@ -79,18 +78,15 @@ export default function NavBar() {
                       align="start"
                     >
                       <div className="flex flex-col justify-between py-2">
-                        <Link
-                          href="/shop/uniform-kits"
-                          className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
-                        >
-                          Uniform Kits
-                        </Link>
-                        <Link
-                          href="/shop/products"
-                          className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-150 ease-in-out px-4 py-2"
-                        >
-                          Club Gear
-                        </Link>
+                        {link.subItems.map((subItem, index) => (
+                          <Link
+                            key={index}
+                            href={subItem.href}
+                            className="text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200 ease-in-out px-4 py-2"
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
                       </div>
                     </HoverCardContent>
                   </HoverCard>
@@ -118,18 +114,6 @@ export default function NavBar() {
           </ul>
 
           <div className="flex items-center gap-1">
-            <Search
-              onClick={() => setSearchIsOpen((prev) => !prev)}
-              className="w-8 text-primary transition-colors duration-200 hover:text-zinc-400"
-            />
-            {searchIsOpen && (
-              <input
-                type="text"
-                className="rounded-lg w-52 placeholder-zinc-300 px-2 py-1 text-sm"
-                placeholder="Search for a product..."
-                autoFocus={searchIsOpen}
-              />
-            )}
             <button
               onClick={toggleModal}
               className="relative py-1 pr-1 rounded-md transition-colors duration-200 hover:bg-gray-200"
@@ -161,7 +145,11 @@ export default function NavBar() {
                 )}
               </button>
               {showDropDown && (
-                <DropdownMenu links={links} setIsOpen={setShowDropDown} />
+                <DropdownMenu
+                  links={links}
+                  isOpen={showDropDown}
+                  setIsOpen={setShowDropDown}
+                />
               )}
             </div>
           </div>
