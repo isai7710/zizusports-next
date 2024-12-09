@@ -6,7 +6,7 @@ import { CheckCircle, XCircle, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-//import { useCart } from "@/components/cart/cart-context";
+import { useCart } from "@/components/cart/cart-context";
 
 type PaymentStatus =
   | "succeeded"
@@ -23,6 +23,8 @@ function PaymentStatusContent() {
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 3;
   const RETRY_DELAY = 2000;
+
+  const { clearCart } = useCart();
 
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -74,6 +76,12 @@ function PaymentStatusContent() {
 
     checkPaymentStatus();
   }, [searchParams, retryCount]);
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      clearCart();
+    }
+  }, [status, clearCart]);
 
   const renderContent = () => {
     if (isLoading) {
