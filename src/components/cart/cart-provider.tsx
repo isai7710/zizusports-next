@@ -123,9 +123,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setItems([]);
-  };
+    localStorage.removeItem("cart");
+  }, []);
 
   const toggleModal = () => setIsOpen((prev) => !prev);
 
